@@ -2,6 +2,7 @@
 
 ## Content
 - [Installatie](#installatie)
+- [Goede commit messages](#hoe-maak-je-goede-commit-messages)
 
 ## Installatie
 1. Eerst wil je de `.env` file maken.
@@ -14,3 +15,7 @@ php artisan migrate
 ```
 php artisan serve
 ```
+
+## Hoe maak je goede commit messages
+Graag deze video bekijken!<br>
+[https://youtu.be/OJqUWvmf4gg?si=X26AVGFUOqIfybvh](https://youtu.be/OJqUWvmf4gg?si=X26AVGFUOqIfybvh)
