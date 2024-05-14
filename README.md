@@ -15,6 +15,13 @@ php artisan migrate
 ```
 php artisan serve
 ```
+4. Om de frontend te bekijken moet je vite runnen. <b>(shell command)</b>
+```
+npm run dev
+```
+> [!CAUTION]
+>
+> Als hij zegt dat de packages nog niet zijn geinstalleerd moet je `npm install` uitvoeren.
 
 ## Hoe maak je goede commit messages
 Graag deze video bekijken!<br>
