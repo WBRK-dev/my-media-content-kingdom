@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("title");
             $table->integer("thumbnail_id");
             $table->integer("owner_id");
+            $table->boolean("public");
             $table->timestamps();
         });
     }
