@@ -92,6 +92,19 @@ class TransformVideoProcess implements ShouldQueue
 
             }
 
+            VideoSegment::insert([
+                "video_id" => $video->id,
+                "video_res" => "",
+                "file_name" => "playlist-index.m3u8",
+                "data" => '#EXTM3U
+#EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1280x720,NAME="720"
+720/index.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=640x360,NAME="360"
+360/index.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1920x1080,NAME="1080"
+1080/index.m3u8'
+            ]);
+
 
         } catch (\Throwable $th) { Log::critical($th); }
 

@@ -55,6 +55,14 @@ class VideoController extends Controller
     }
 
     /**
+     * Display the video playlist resource.
+     */
+    public function showPlaylist(string $videoId, string $fileName)
+    {
+        return VideoSegment::where("video_id", $videoId)->where("file_name", "playlist-" . $fileName)->first()?->data;
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)

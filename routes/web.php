@@ -26,3 +26,4 @@ Route::get("/upload", [VideoController::class, "create"]);
 Route::post("/upload", [VideoController::class, "store"]);
 
 Route::get("/watch/{videoid}/{resolution}/{filename}", [VideoController::class, "show"]);
+Route::get("/watch/{videoid}/{filename}", [VideoController::class, "showPlaylist"]);
