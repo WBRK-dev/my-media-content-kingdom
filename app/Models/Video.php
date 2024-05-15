@@ -23,4 +23,8 @@ class Video extends Model
     public function thumbnail(): HasOne {
         return $this->hasOne(Thumbnail::class, "id", "thumbnail_id");
     }
+
+    public function manifest(): HasOne {
+        return $this->hasOne(VideoSegmentManifest::class, "videos_id", "id");
+    }
 }

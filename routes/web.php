@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Controllers/Resource Controllers
+use App\Http\Controllers\VideoController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
     return view('home');
 });
 
-require __DIR__.'/auth.php';
+Route::get("/upload", [VideoController::class, "create"]);
+Route::post("/upload", [VideoController::class, "store"]);
+
+Route::get("/watch/{videoid}/{resolution}/{filename}", [VideoController::class, "show"]);

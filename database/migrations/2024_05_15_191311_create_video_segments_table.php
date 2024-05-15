@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('thumbnails', function (Blueprint $table) {
+        Schema::create('video_segments', function (Blueprint $table) {
             $table->id();
-            $table->mediumText('data')->charset('binary');
             $table->integer("video_id");
+            $table->string("file_name");
+            $table->string("video_res");
+            $table->longText("data")->charset("binary");
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thumbnails');
+        Schema::dropIfExists('video_segments');
     }
 };

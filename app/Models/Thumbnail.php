@@ -10,6 +10,8 @@ class Thumbnail extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function video(): HasOne {
         return $this->hasOne(Video::class, "video_id");
     }
