@@ -103,9 +103,9 @@ class VideoController extends Controller
     *
     * @return mixed string or long
     */
-    function alphaID($in, $to_num = false, $pad_up = false, $pass_key = null)
+    public static function alphaID($in, $to_num = false, $pad_up = false, $pass_key = null)
     {
-        $out   =   '';
+        $out   = '';
         $index = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $base  = strlen($index);
     
@@ -136,8 +136,8 @@ class VideoController extends Controller
         $len = strlen($in) - 1;
     
         for ($t = $len; $t >= 0; $t--) {
-            $bcp = bcpow($base, $len - $t);
-            $out = $out + strpos($index, substr($in, $t, 1)) * $bcp;
+                $bcp = pow($base, $len - $t);
+                $out = ( (int) $out) + strpos($index, substr($in, $t, 1)) * $bcp;
         }
     
         if (is_numeric($pad_up)) {
@@ -158,7 +158,7 @@ class VideoController extends Controller
         }
     
         for ($t = ($in != 0 ? floor(log($in, $base)) : 0); $t >= 0; $t--) {
-            $bcp = bcpow($base, $t);
+                $bcp = pow($base, $t);
             $a   = floor($in / $bcp) % $base;
             $out = $out . substr($index, $a, 1);
             $in  = $in - ($a * $bcp);
