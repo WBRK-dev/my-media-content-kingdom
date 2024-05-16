@@ -20,6 +20,12 @@
         <label for="image">Select a video: </label>
         <input type="file" name="video" required accept=".mp4">
 
+        <br>
+
+        <p>Video visibility</p>
+        <input type="radio" name="visibility" value="public" id="visibilitypublic" checked><label for="visibilitypublic">Public</label><br>
+        <input type="radio" name="visibility" value="private" id="visibilityprivate"><label for="visibilityprivate">Private</label>
+
         <br><br>
 
         <button>Upload</button>

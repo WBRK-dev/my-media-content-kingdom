@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use App\Http\Controllers\VideoController;
+
 class Video extends Model
 {
     use HasFactory;
 
     public function getId(): string {
-        return base_convert($this->id, 10, 35);
+        return VideoController::alphaId($this->id);
     }
 
     // TODO - Add user class to link relations
@@ -22,9 +24,5 @@ class Video extends Model
     // TODO - Add thumbnail class to link relations
     public function thumbnail(): HasOne {
         return $this->hasOne(Thumbnail::class, "id", "thumbnail_id");
-    }
-
-    public function manifest(): HasOne {
-        return $this->hasOne(VideoSegmentManifest::class, "videos_id", "id");
     }
 }

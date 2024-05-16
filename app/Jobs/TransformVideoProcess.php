@@ -66,7 +66,7 @@ class TransformVideoProcess implements ShouldQueue
             $video->title = $this->videoData["title"] ?? "Untitled";
             $video->owner_id = 1;
             $video->thumbnail_id = $thumbnail->id;
-            $video->public = true;
+            $video->public = $this->videoData["visibility"];
             $video->save();
 
             $thumbnail->video_id = $video->id;
@@ -109,6 +109,6 @@ class TransformVideoProcess implements ShouldQueue
         } catch (\Throwable $th) { Log::critical($th); }
 
         // Cleanup
-        // Storage::disk("local")->deleteDirectory($this->dirUuid);
+        Storage::deleteDirectory($this->dirUuid);
     }
 }
