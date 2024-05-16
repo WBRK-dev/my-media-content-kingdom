@@ -47,9 +47,9 @@ class TransformVideoProcess implements ShouldQueue
 
         try {
             // Execute transcoding commands using ffmpeg
-            shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 1920x1080 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "1080" . DIRECTORY_SEPARATOR . "index.m3u8");
-            shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 1280x720 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "720" . DIRECTORY_SEPARATOR . "index.m3u8");
-            shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "360" . DIRECTORY_SEPARATOR . "index.m3u8");
+            // shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 1920x1080 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "1080" . DIRECTORY_SEPARATOR . "index.m3u8");
+            // shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 1280x720 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "720" . DIRECTORY_SEPARATOR . "index.m3u8");
+            // shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "360" . DIRECTORY_SEPARATOR . "index.m3u8");
         } catch (\Throwable $th) { Log::critical($th); }
     
         // Store segments and segment manifests
@@ -72,39 +72,62 @@ class TransformVideoProcess implements ShouldQueue
             $thumbnail->video_id = $video->id;
             $thumbnail->save();
 
-            $resolutions = ["360", "720", "1080"];
+            $videoPlaylist = new VideoSegment();
+            $videoPlaylist->video_id = $video->id;
+            $videoPlaylist->video_res = "";
+            $videoPlaylist->file_name = "playlist-index.m3u8";
+            $videoPlaylist->data = '#EXTM3U';
+            $videoPlaylist->save();
+
+            $resolutions = ["640x360", "1280x720", "1920x1080"];
 
             foreach ($resolutions as $res) {
-                
-                $files = Storage::files($this->dirUuid . "/$res");
-                foreach ($files as $file) {
-                    $segment = new VideoSegment();
-                    $segment->video_id = $video->id;
-                    $segment->video_res = $res;
 
-                    $explodedTitle = explode("/", $file);
-                    $segment->file_name = $explodedTitle[count($explodedTitle) - 1];
+                try {
+                    
+                    $yRes = explode("x", $res)[1];
 
-                    $segment->data = Storage::read($file);
+                    shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s $res -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . $yRes . DIRECTORY_SEPARATOR . "index.m3u8");
+                    
+                    $files = Storage::files($this->dirUuid . "/$yRes");
+                    foreach ($files as $file) {
+                        $segment = new VideoSegment();
+                        $segment->video_id = $video->id;
+                        $segment->video_res = $yRes;
 
-                    $segment->save();
-                }
+                        $explodedTitle = explode("/", $file);
+                        $segment->file_name = $explodedTitle[count($explodedTitle) - 1];
+
+                        $segment->data = Storage::read($file);
+
+                        $segment->save();
+                    }
+
+                    if ($yRes === "360") {
+                        $videoPlaylist->data = '#EXTM3U
+    #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=640x360,NAME="360"
+    360/index.m3u8';
+                    } else if ($yRes === "720") {
+                        $videoPlaylist->data = '#EXTM3U
+    #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=640x360,NAME="360"
+    360/index.m3u8
+    #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1280x720,NAME="720"
+    720/index.m3u8';
+                    } else if ($yRes === "1080") {
+                        $videoPlaylist->data = '#EXTM3U
+    #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=640x360,NAME="360"
+    360/index.m3u8
+    #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1280x720,NAME="720"
+    720/index.m3u8
+    #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1920x1080,NAME="1080"
+    1080/index.m3u8';
+                    }
+
+                    $videoPlaylist->save();
+
+                } catch (\Throwable $th) { Log::critical($th); }
 
             }
-
-            VideoSegment::insert([
-                "video_id" => $video->id,
-                "video_res" => "",
-                "file_name" => "playlist-index.m3u8",
-                "data" => '#EXTM3U
-#EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1280x720,NAME="720"
-720/index.m3u8
-#EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=640x360,NAME="360"
-360/index.m3u8
-#EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1920x1080,NAME="1080"
-1080/index.m3u8'
-            ]);
-
 
         } catch (\Throwable $th) { Log::critical($th); }
 
