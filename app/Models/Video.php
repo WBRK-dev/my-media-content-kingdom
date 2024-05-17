@@ -16,7 +16,7 @@ class Video extends Model
         return VideoController::alphaId($this->id);
     }
 
-    public function user(): HasOne {
+    public function owner(): HasOne {
         return $this->hasOne(User::class, "id", "owner_id");
     }
 
