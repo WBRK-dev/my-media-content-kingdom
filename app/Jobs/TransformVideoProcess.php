@@ -44,19 +44,10 @@ class TransformVideoProcess implements ShouldQueue
         Storage::disk("local")->makeDirectory($this->dirUuid."/720");
         Storage::disk("local")->makeDirectory($this->dirUuid."/1080");
         $fullPath = $this->dir;
-
-        try {
-            // Execute transcoding commands using ffmpeg
-            // shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 1920x1080 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "1080" . DIRECTORY_SEPARATOR . "index.m3u8");
-            // shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 1280x720 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "720" . DIRECTORY_SEPARATOR . "index.m3u8");
-            // shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . "360" . DIRECTORY_SEPARATOR . "index.m3u8");
-        } catch (\Throwable $th) { Log::critical($th); }
     
         // Store segments and segment manifests
         try {
 
-            // Log::debug($this->videoData["thumbnail"]);
-            
             $thumbnail = new Thumbnail();
             $thumbnail->data = Storage::read($this->videoData["thumbnail"]);
             $thumbnail->video_id = 0;

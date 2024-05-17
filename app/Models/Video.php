@@ -16,12 +16,10 @@ class Video extends Model
         return VideoController::alphaId($this->id);
     }
 
-    // TODO - Add user class to link relations
     public function user(): HasOne {
         return $this->hasOne(User::class, "id", "owner_id");
     }
 
-    // TODO - Add thumbnail class to link relations
     public function thumbnail(): HasOne {
         return $this->hasOne(Thumbnail::class, "id", "thumbnail_id");
     }
