@@ -87,7 +87,9 @@ class TransformVideoProcess implements ShouldQueue
                     
                     $yRes = explode("x", $res)[1];
 
-                    shell_exec("ffmpeg -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s $res -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . $yRes . DIRECTORY_SEPARATOR . "index.m3u8");
+                    $ffmpegBin = env("FFMPEG_BINARY", "ffmpeg");
+
+                    shell_exec("$ffmpegBin -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s $res -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . $yRes . DIRECTORY_SEPARATOR . "index.m3u8");
                     
                     $files = Storage::files($this->dirUuid . "/$yRes");
                     foreach ($files as $file) {
