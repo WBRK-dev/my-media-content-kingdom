@@ -9,7 +9,7 @@ class WatchController extends Controller
 {
     function show(Request $request) {
         return view('watch', [
-            'video' => Video::findOrFail($request->input("id"))
+            'video' => Video::findOrFail(VideoController::alphaID($request->input("id"), true))
         ]);
     }
 }
