@@ -1,0 +1,27 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    border: 1px solid black;
+    width: 200px;
+    padding: 5px;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+}
+
+.search-bar {
+    margin-top: 10px;
+    width: 50%;
+}
+
+.ad-banner {
+    width: 60%;
+    height: 100%;
+    margin: 20px;
+}

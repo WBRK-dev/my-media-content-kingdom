@@ -1,0 +1,8 @@
+.debugborder {
+    border: 1px solid black;
+}
+
+.debugborder-round {
+    border: 1px solid black;
+    border-radius: 1000000px;
+}
