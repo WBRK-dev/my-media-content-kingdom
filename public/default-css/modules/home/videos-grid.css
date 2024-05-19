@@ -1,0 +1,14 @@
+.videos-grid {
+    display: grid;
+    grid-column-end: span 4;
+    grid-template-columns: repeat(4, 25%);
+}
+
+.placeholder-video {
+    height: 150px;
+    width: 200px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 10px;
+}

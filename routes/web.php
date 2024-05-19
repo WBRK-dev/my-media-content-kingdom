@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 // Controllers/Resource Controllers
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\HomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,7 @@ use App\Http\Controllers\VideoController;
 
 require __DIR__.'/auth.php';
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get("/", [HomeController::class, "show"]);
 
 Route::get("/upload", [VideoController::class, "create"]);
 Route::post("/upload", [VideoController::class, "store"]);
