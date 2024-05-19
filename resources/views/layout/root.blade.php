@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ config("app.url") }}/default-css/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     @vite(['resources/js/app.js'])
+    @yield('head')
     <title>{{ config("app.name") }}</title>
 </head>
 <body>
