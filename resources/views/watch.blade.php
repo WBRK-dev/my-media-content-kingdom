@@ -1,10 +1,17 @@
 @extends('layout.root')
 
 @section('body')
-    
-    <video controls muted></video>
 
-    <select onchange="updateResolution(this)"></select>
+    <form action="./" style="position: fixed; top: .5rem; left: .5rem;"><button>Home</button></form>
+    
+    <div style="display: flex; justify-content: center;"><div style="width: min(100%, 1000px);">
+
+        <video controls muted style="display: block; width: 100%;"></video>
+    
+        <select onchange="updateResolution(this)" style="display: block;"></select>
+
+    </div></div>
+
 
 @endsection
 
