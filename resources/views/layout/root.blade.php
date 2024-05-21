@@ -11,6 +11,9 @@
     <title>{{ config("app.name") }}</title>
 </head>
 <body>
-    @yield('body')
+    <div class="d-flex">
+        @include('layout.sidebar')
+        @yield('body')
+    </div>
 </body>
 </html>
