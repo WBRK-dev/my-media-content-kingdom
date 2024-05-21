@@ -6,7 +6,7 @@
     
     <div style="display: flex; justify-content: center;"><div style="width: min(100%, 1000px);">
 
-        <video controls muted style="display: block; width: 100%;"></video>
+        <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
     
         <select onchange="updateResolution(this)" style="display: block;"></select>
 
