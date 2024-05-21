@@ -1,7 +1,7 @@
 @extends('layout.root')
 
 @section('body')
-    <div class="main d-flex f-col align-c debugborder">
+    <main class="d-flex f-col align-c debugborder">
         <div class="search-bar d-flex justify-c debugborder-round">
             <p>This is a placeholder for the search bar</p>
             <span class="material-symbols-outlined" style="font-size: 35px; display: flex; align-items: center">search</span>
@@ -17,5 +17,5 @@
                 </a>
             @endforeach
         </div>
-    </div>
+    </main>
 @endsection
