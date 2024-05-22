@@ -1,8 +1,6 @@
 @extends('layout.root')
 
 @section('body')
-
-    <form action="./" style="position: fixed; top: .5rem; left: .5rem;"><button>Home</button></form>
     
     <div style="display: flex; justify-content: center;"><div style="width: min(100%, 1000px);">
 
