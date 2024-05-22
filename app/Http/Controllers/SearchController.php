@@ -13,7 +13,7 @@ class SearchController extends Controller
         // $videos = Video::where("title", "LIKE", "%downfall%")->orderBy("created_at", "desc")->limit(50)->get();
         $videos = Video::select("*");
         foreach ($q as $word) {
-            $videos->orWhere('title', 'LIKE', "%$word%");
+            $videos->orWhere('title', 'LIKE', "%$word%")->orderBy("created_at", "desc");
         }
         $videos = $videos->get();
         return view('search', [
