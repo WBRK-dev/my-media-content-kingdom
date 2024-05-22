@@ -7,6 +7,14 @@
     flex-shrink: 0;
 }
 
+.topnavbar .logo {
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #000;
+    text-decoration: none;
+}
+
 .topnavbar form {
     margin: 0 auto; 
     display: block; 
