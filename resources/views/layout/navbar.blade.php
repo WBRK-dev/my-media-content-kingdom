@@ -6,8 +6,9 @@
         <input type="text" name="q" placeholder="Search..." autocomplete="off">
     </form>
 
-    @auth
+    @if (Auth::check())
         <a href="{{ config("app.url") }}/upload">Upload</a>
-    @endauth
-    <a href="{{ config("app.url") }}/login">Login</a>
+    @else
+        <a href="{{ config("app.url") }}/login">Login</a>
+    @endif
 </div>
