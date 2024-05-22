@@ -4,15 +4,11 @@ body {
     padding: 0;
 }
 
-.sidebar {
-    border: 1px solid black;
-    width: 200px;
-    padding: 5px;
-}
-
 main {
     height: 100%;
     flex-grow: 1;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .search-bar {
@@ -24,4 +20,5 @@ main {
     width: 60%;
     height: 100%;
     margin: 20px;
+    flex: 0 0 0;
 }

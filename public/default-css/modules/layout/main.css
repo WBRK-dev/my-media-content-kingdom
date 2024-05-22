@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-layout {
+    display: flex;
+    /* flex-grow: 1; */
+
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
+
+}
+
+.main-layout-body {
+    flex-grow: 1;
+    border-top-left-radius: 1rem;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+}

@@ -1,11 +1,7 @@
 @extends('layout.root')
 
 @section('body')
-    <main class="d-flex f-col align-c debugborder">
-        <div class="search-bar d-flex justify-c debugborder-round">
-            <p>This is a placeholder for the search bar</p>
-            <span class="material-symbols-outlined" style="font-size: 35px; display: flex; align-items: center">search</span>
-        </div>
+    <main class="d-flex f-col align-c">
         <div class="ad-banner debugborder">
             <p>This is a placeholder for an ad banner</p>
         </div>

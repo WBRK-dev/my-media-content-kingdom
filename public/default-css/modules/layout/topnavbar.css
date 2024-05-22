@@ -1,0 +1,8 @@
+.topnavbar {
+    display: flex; gap: .5rem;
+    align-items: center;
+
+    padding: 0 .5rem;
+    height: 60px;
+    flex-shrink: 0;
+}

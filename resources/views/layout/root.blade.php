@@ -10,10 +10,13 @@
     @yield('head')
     <title>{{ config("app.name") }}</title>
 </head>
-<body>
-    <div class="d-flex">
+<body style="height: 100vh; height: 100dvh;">
+    @include("layout.navbar")
+    <div class="main-layout">
         @include('layout.sidebar')
-        @yield('body')
+        <div class="main-layout-body">
+            @yield('body')
+        </div>
     </div>
 </body>
 </html>
