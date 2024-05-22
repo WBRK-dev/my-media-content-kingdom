@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Http\Controllers\VideoController;
 
@@ -22,5 +23,14 @@ class Video extends Model
 
     public function thumbnail(): HasOne {
         return $this->hasOne(Thumbnail::class, "id", "thumbnail_id");
+    }
+
+    public function getViews() {
+        $viewRows = $this->hasMany(VideoView::class)->get();
+        $viewAmount = 0;
+        foreach ($viewRows as $row) {
+            $viewAmount += $row->amount;
+        }
+        return $viewAmount;
     }
 }
