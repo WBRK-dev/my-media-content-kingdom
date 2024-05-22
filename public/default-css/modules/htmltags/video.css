@@ -1,0 +1,29 @@
+video-grid {
+    display: grid; gap: .5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+video-grid-item, a.video-grid-item {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    width: 100%;
+}
+
+video-grid-item img, a.video-grid-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: .5rem;
+    object-fit: contain;
+    background-color: #474747;
+}
+
+video-grid-item .info, a.video-grid-item .info {
+    padding: .5rem;
+}
+
+video-grid-item .info, a.video-grid-item .info .title {
+    font-weight: 700;
+    font-size: 17px;
+}
