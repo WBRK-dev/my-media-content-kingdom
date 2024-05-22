@@ -1,8 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
+@import url("./bootstrap-utilities.min.css");
+
 @import url("./modules/home/index.css");
 @import url("./modules/home/videos-grid.css");
-@import url("./modules/home/flex-utils.css");
 @import url("./modules/home/debug.css");
 
 @import url("./modules/layout/topnavbar.css");
 @import url("./modules/layout/sidebar.css");
 @import url("./modules/layout/main.css");
+
+@import url("./modules/htmltags/video.css");
+
+* {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
