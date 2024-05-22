@@ -10,6 +10,12 @@
     
         <select onchange="updateResolution(this)" style="display: block;"></select>
 
+        @if ($video->getViews() == 1)
+            <div>{{$video->getViews()}} view</div>
+        @else
+            <div>{{$video->getViews()}} views</div>
+        @endif
+        
     </div></div>
 
 
