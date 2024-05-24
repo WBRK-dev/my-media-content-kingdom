@@ -5,6 +5,8 @@
 @import url("./modules/home/videos-grid.css");
 @import url("./modules/home/debug.css");
 
+@import url("./modules/watch/index.css");
+
 @import url("./modules/layout/topnavbar.css");
 @import url("./modules/layout/sidebar.css");
 @import url("./modules/layout/main.css");
