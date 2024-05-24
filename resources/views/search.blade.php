@@ -1,9 +1,8 @@
 @extends('layout.root')
 
 @section('body')
-
-    <main class="p-2">
-        <video-grid>
+    <main>
+        <div class="videos-grid">
             @foreach ($videos as $video)
             <div>
                 <a class="video-grid-item" href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
@@ -19,6 +18,6 @@
                 </form>
             </div>
             @endforeach
-        </video-grid>
+        </div>
     </main>
 @endsection
