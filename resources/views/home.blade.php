@@ -15,7 +15,15 @@
                     <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
                     <div class="info">
                         <p class="title">{{ $video->title }}</p>
+                        @if ($video->getViews() == 1)
+                            <div>{{$video->getViews()}} view</div>
+                        @else
+                            <div>{{$video->getViews()}} views</div>
+                        @endif
+        
+                        <div>{{$video->owner->name}}</div>
                     </div>
+                    
                 </a>
             @endforeach
         </video-grid>
