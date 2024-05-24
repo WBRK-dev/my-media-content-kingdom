@@ -8,6 +8,8 @@
         <video-grid class="w-100">
             @foreach ($videos as $video)
                 {{-- <a class="placeholder-video" href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
+            <div class="placeholder-video">
+                <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
                     <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
                     <p> {{ $video->title }}</p>
                 </a> --}}
@@ -23,8 +25,13 @@
         
                         <div>{{$video->owner->name}}</div>
                     </div>
-                    
+                    <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button>Delete</button>
+                    </form>
                 </a>
+                {{-- </div> --}}
             @endforeach
         </video-grid>
     </main>
