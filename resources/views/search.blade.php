@@ -9,11 +9,13 @@
                     <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
                     <p> {{ $video->title }}</p>
                 </a>
-                <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
-                    @csrf
-                    @method('DELETE')
-                    <button>Delete</button>
-                </form>
+                @permission('video-remove')
+                    <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button>Delete</button>
+                    </form>
+                @endpermission
             </div>
             @endforeach
         </div>
