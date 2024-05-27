@@ -10,6 +10,15 @@ return [
     | are going to be used are the ones inside the 'user_models' array.
     |
     */
+
+    "roles" => [
+        [ "name"=>"admin", "display_name"=>"Administrator", "perms"=>["video-remove"] ]
+    ],
+    
+    "permissions" => [
+        [ "name"=>"video-remove", "display_name"=>"Remove video" ]
+    ],
+
     'use_morph_map' => false,
 
     /*
