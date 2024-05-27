@@ -188,4 +188,17 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'report_reasons' => [
+        'Sexual content',
+        'Violent or repulsive content',
+        'Hateful or abusive content',
+        'Harassment or bullying',
+        'Harmful or dangerous acts',
+        'Misinformation',
+        'Child abuse',
+        'Promotes terrorism',
+        'Spam or misleading',
+        'Legal issue',
+        'Captions issue'
+    ]
 ];

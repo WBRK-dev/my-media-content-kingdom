@@ -51,6 +51,27 @@
                 @endif
             </div>
         </div>
+        <div>
+            <button onclick="showReportBox()">Report video</button>
+        </div>
+        <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
+            <div class="card-header">Report video</div>
+            <div class="card-content d-flex flex-column my-3">
+                <form>
+                    @csrf
+                    @foreach (config('app.report_reasons') as $reason)
+                        <div class="my-2">
+                            <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
+                            <label for="reason{{$loop->index}}">{{$reason}}</label>
+                        </div>
+                    @endforeach
+                </form>
+            </div>
+            <div class="card-footer d-flex">
+                <button id="formBtn" type="button">Submit</button>
+                <button onclick="closeReportBox()">X</button>
+            </div>
+        </div>
 
     </div></div>
 
@@ -118,11 +139,49 @@
                     fetch('{{config("app.url")}}/api/watch/like_rem_row?id={{ $video->getId() }}');
                 }            
             });
-    
+
+            const formBtn = document.getElementById("formBtn");
+            formBtn.addEventListener("click", formSubmit);    
         });
 
         function updateResolution(elem) {
             hls.currentLevel = Number(elem.value);
+        }
+
+        function formSubmit() {
+            const formData = new FormData();
+            formData.append(
+                'reason_id',
+                document.querySelector('input[name="report_reason"]:checked').value
+            );
+            formData.append(
+                'id',
+                "{{$video->id}}"
+            );
+            formData.append(
+                '_token',
+                "{{csrf_token()}}"
+            );
+
+            fetch('{{config("app.url")}}/api/watch/report_video',
+            {
+                method: "POST",
+                body: formData,
+            })
+        }
+
+        function showReportBox() {
+            let reportBox = document.getElementById("report-card");
+            if (reportBox.style.top = "-50%") {
+                reportBox.style.top = "50%";
+            }            
+        }
+
+        function closeReportBox() {
+            let reportBox = document.getElementById("report-card");
+            if (reportBox.style.top = "50%") {
+                reportBox.style.top = "-50%";
+            }  
         }
         
     </script>

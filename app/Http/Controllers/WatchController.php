@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use App\Models\VideoLike;
+use App\Models\VideoReport;
 use App\Models\VideoView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,6 +70,17 @@ class WatchController extends Controller
         $videoLikes = $video->likes->where("user_id", 1);
         if ($videoLikes->count()) {
             $videoLikes[0]->delete();
+        }
+    }
+
+    function videoReported(Request $request) {
+        $reportInput = new VideoReport();
+        $table = DB::table('video_reports');
+        if (!$table->where('user_id', 1)->where('video_id', $request->id)->where('reason_id', $request->reason_id)->exists()) {
+            $reportInput->user_id = 1;
+            $reportInput->video_id = $request->id;
+            $reportInput->reason_id = $request->reason_id;
+            $reportInput->save();
         }
     }
 }
