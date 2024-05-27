@@ -7,31 +7,24 @@
         </div>
         <video-grid class="w-100">
             @foreach ($videos as $video)
-                {{-- <a class="placeholder-video" href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
-            <div class="placeholder-video">
-                <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
-                    <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
-                    <p> {{ $video->title }}</p>
-                </a> --}}
-                <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}" class="video-grid-item">
-                    <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
-                    <div class="info">
-                        <p class="title">{{ $video->title }}</p>
-                        @if ($video->getViews() == 1)
-                            <div>{{$video->getViews()}} view</div>
-                        @else
-                            <div>{{$video->getViews()}} views</div>
-                        @endif
-        
-                        <div>{{$video->owner->name}}</div>
-                    </div>
-                    <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
-                        @csrf
-                        @method('DELETE')
-                        <button>Delete</button>
-                    </form>
-                </a>
-                {{-- </div> --}}
+                <div class="placeholder-video">
+                    <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}" class="video-grid-item">
+                        <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
+                        <div class="info">
+                            <p class="title">{{ $video->title }}</p>
+                            @if ($video->getViews() == 1)
+                                <div>{{ $video->getViews() }} view</div>
+                            @else
+                                <div>{{ $video->getViews() }} views</div>
+                            @endif
+                        </div>
+                        <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
+                            @csrf
+                            @method('DELETE')
+                            <button>Delete</button>
+                        </form>
+                    </a>
+                </div>
             @endforeach
         </video-grid>
     </main>

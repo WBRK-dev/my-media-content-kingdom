@@ -11,11 +11,13 @@
                         <p class="title">{{ $video->title }}</p>
                     </div>
                 </a>
-                <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
-                    @csrf
-                    @method('DELETE')
-                    <button>Delete</button>
-                </form>
+                @permission('video-remove')
+                    <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button>Delete</button>
+                    </form>
+                @endpermission
             </div>
             @endforeach
         </div>
