@@ -62,4 +62,8 @@ class Video extends Model
         $timeAgo = Carbon::parse($createdAt)->diffForHumans();
         return $timeAgo;
     }
+
+    public function isNew() {
+        return $this->created_at->gt(Carbon::now()->subDays(4));
+    }
 }
