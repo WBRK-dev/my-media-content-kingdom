@@ -15,7 +15,7 @@
             @if (date('d-m-Y') == $video->created_at->format('d-m-Y'))
                 Today
             @else
-                <div>{{$video->created_at->format('j F Y')}}</div>
+                <div>{{$video->created_at->format('F, j Y')}}</div>
             @endif
 
         </div>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div>
-            <button onclick="showReportBox()">Report video</button>
+            <button id="openFormBtn">Report video</button>
         </div>
         <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
             <div class="card-header">Report video</div>
@@ -69,7 +69,7 @@
             </div>
             <div class="card-footer d-flex">
                 <button id="formBtn" type="button">Submit</button>
-                <button onclick="closeReportBox()">X</button>
+                <button id="closeFormBtn">X</button>
             </div>
         </div>
 
@@ -141,7 +141,10 @@
             });
 
             const formBtn = document.getElementById("formBtn");
-            formBtn.addEventListener("click", formSubmit);    
+            formBtn.addEventListener("click", formSubmit);
+            
+            document.getElementById("openFormBtn").addEventListener("click", showReportBox);
+            document.getElementById("closeFormBtn").addEventListener("click", closeReportBox); 
         });
 
         function updateResolution(elem) {
@@ -150,6 +153,7 @@
 
         function formSubmit() {
             const formData = new FormData();
+            console.log(document.querySelector('input[name="report_reason"]:checked').value);
             formData.append(
                 'reason_id',
                 document.querySelector('input[name="report_reason"]:checked').value
@@ -171,16 +175,20 @@
         }
 
         function showReportBox() {
+            let checkedBtn = document.querySelector('input[name="report_reason"]:checked');
+            if (checkedBtn) checkedBtn.checked = false;
             let reportBox = document.getElementById("report-card");
-            if (reportBox.style.top = "-50%") {
-                reportBox.style.top = "50%";
-            }            
+            if (reportBox.style.display = "none") {
+                reportBox.style.display = "block";
+            }    
         }
 
         function closeReportBox() {
+            let checkedBtn = document.querySelector('input[name="report_reason"]:checked');
+            if (checkedBtn) checkedBtn.checked = false;
             let reportBox = document.getElementById("report-card");
-            if (reportBox.style.top = "50%") {
-                reportBox.style.top = "-50%";
+            if (reportBox.style.display = "block") {
+                reportBox.style.display = "none";
             }  
         }
         
