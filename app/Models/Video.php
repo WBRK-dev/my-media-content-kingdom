@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 use App\Http\Controllers\VideoController;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Video extends Model
 {
@@ -54,5 +55,15 @@ class Video extends Model
             $viewAmount += $row->amount;
         }
         return $viewAmount;
+    }
+
+    public function getTimeAgo() {
+        $createdAt = $this->created_at;
+        $timeAgo = Carbon::parse($createdAt)->diffForHumans();
+        return $timeAgo;
+    }
+
+    public function isNew() {
+        return $this->created_at->gt(Carbon::now()->subDays(4));
     }
 }
