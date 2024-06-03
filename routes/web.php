@@ -40,4 +40,5 @@ Route::get("/api/watch/disliked", [WatchController::class, "videoDisliked"]);
 Route::get("/api/watch/like_rem_row", [WatchController::class, "deleteLikeRow"]);
 Route::post("/api/watch/report_video", [WatchController::class, "videoReported"]);
 
-Route::view("/login", "login");
+Route::view("/login", "account.login");
+Route::view("/register", "account.register");
