@@ -10,12 +10,10 @@
     padding: 0 1rem 1rem 1rem;
 }
 
-.placeholder-video {
+.video-grid-item {
     width: 100%;
 
     background-color: white;
-    border: 1px solid black;
-    border-radius: 15px;
 
     color: #000;
     text-decoration: none;
@@ -23,16 +21,16 @@
     overflow: hidden;
 }
 
-.placeholder-video img {
+.video-grid-item img {
     display: block;
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: contain;
-    border-radius: 15px;
+    border-radius: 1rem;
     background-color: #474747;
 }
 
-.placeholder-video p {
+.video-grid-item p {
     margin: .5rem 1rem;
     font-weight: 700;
     font-size: 18px;

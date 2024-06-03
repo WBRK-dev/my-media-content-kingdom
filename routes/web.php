@@ -29,6 +29,8 @@ Route::get('/search', [SearchController::class, "search"]);
 Route::get("/upload", [VideoController::class, "create"]);
 Route::post("/upload", [VideoController::class, "store"]);
 
+Route::delete("/delete/{video}", [VideoController::class, "destroy"]);
+
 Route::get("/watch", [WatchController::class, "show"]);
 
 Route::get("/watch/{videoid}/{resolution}/{filename}", [VideoController::class, "show"]);
