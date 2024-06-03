@@ -48,6 +48,8 @@ class TransformVideoProcess implements ShouldQueue
         // Store segments and segment manifests
         try {
 
+            $ffmpegBin = env("FFMPEG_BINARY", "ffmpeg");
+
             $thumbnail = new Thumbnail();
             $thumbnail->data = Storage::read($this->videoData["thumbnail"]);
             $thumbnail->video_id = 0;
@@ -59,7 +61,7 @@ class TransformVideoProcess implements ShouldQueue
             $video->thumbnail_id = $thumbnail->id;
             $video->public = $this->videoData["visibility"];
             
-            $output = shell_exec('ffmpeg -i ' . $fullPath . DIRECTORY_SEPARATOR . 'input.mp4 2>&1 | grep Duration');
+            $output = shell_exec("$ffmpegBin -i ' . $fullPath . DIRECTORY_SEPARATOR . 'input.mp4 2>&1 | grep Duration");
             $durationArray = explode(":", explode(".", explode(",", explode("Duration: ", $output)[1])[0])[0]);
             $video->length = $durationArray[0] * 3600 + $durationArray[1] * 60 + $durationArray[2];
             
@@ -82,8 +84,6 @@ class TransformVideoProcess implements ShouldQueue
                 try {
                     
                     $yRes = explode("x", $res)[1];
-
-                    $ffmpegBin = env("FFMPEG_BINARY", "ffmpeg");
 
                     shell_exec("$ffmpegBin -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 -profile:v baseline -level 3.0 -s $res -start_number 0 -hls_time 10 -hls_list_size 0 -f hls " . $fullPath . DIRECTORY_SEPARATOR . $yRes . DIRECTORY_SEPARATOR . "index.m3u8");
                     
