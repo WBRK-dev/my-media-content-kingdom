@@ -58,6 +58,11 @@ class TransformVideoProcess implements ShouldQueue
             $video->owner_id = 1;
             $video->thumbnail_id = $thumbnail->id;
             $video->public = $this->videoData["visibility"];
+            
+            $output = shell_exec('ffmpeg -i ' . $fullPath . DIRECTORY_SEPARATOR . 'input.mp4 2>&1 | grep Duration');
+            $durationArray = explode(":", explode(".", explode(",", explode("Duration: ", $output)[1])[0])[0]);
+            $video->length = $durationArray[0] * 3600 + $durationArray[1] * 60 + $durationArray[2];
+            
             $video->save();
 
             $thumbnail->video_id = $video->id;
