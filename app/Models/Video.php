@@ -66,4 +66,20 @@ class Video extends Model
     public function isNew() {
         return $this->created_at->gt(Carbon::now()->subDays(4));
     }
+
+    public function shortDuration() {
+        $duration = $this->length;
+        $hours = floor($duration / 3600);
+        $minutes = floor(($duration - ($hours * 3600)) / 60);
+        $seconds = $duration - ($hours * 3600) - ($minutes * 60);
+        if ($hours > 0) {
+            return $hours . "h";
+        } else if ($minutes > 0) {
+            return $minutes . "m";
+        } else if ($seconds > 0) {
+            return $seconds . "s";
+        } else {
+            return "0s";
+        }
+    }
 }
