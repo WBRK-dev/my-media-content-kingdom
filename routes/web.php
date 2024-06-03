@@ -22,7 +22,7 @@ use App\Http\Controllers\SearchController;
 
 require __DIR__.'/auth.php';
 
-Route::get("/", [HomeController::class, "show"]);
+Route::get("/", [HomeController::class, "show"])->name("home");
 
 Route::get('/search', [SearchController::class, "search"]);
 
@@ -40,5 +40,5 @@ Route::get("/api/watch/disliked", [WatchController::class, "videoDisliked"]);
 Route::get("/api/watch/like_rem_row", [WatchController::class, "deleteLikeRow"]);
 Route::post("/api/watch/report_video", [WatchController::class, "videoReported"]);
 
-Route::view("/login", "account.login");
-Route::view("/register", "account.register");
+Route::view("/login", "account.login")->middleware("nonauth");
+Route::view("/register", "account.register")->middleware("nonauth");
