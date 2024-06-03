@@ -1,8 +1,8 @@
 @extends('layout.root')
 
 @section('body')
-    <main>
-        <div class="videos-grid">
+    <main class="p-2">
+        <video-grid>
             @foreach ($videos as $video)
             <div class="video-grid-item">
                 <a class="video-grid-item" href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
@@ -25,6 +25,6 @@
                 @endpermission
             </div>
             @endforeach
-        </div>
+        </video-grid>
     </main>
 @endsection
