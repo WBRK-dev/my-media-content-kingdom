@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Video;
 use App\Models\VideoSegment;
 use App\Jobs\TransformVideoProcess;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
@@ -42,6 +43,7 @@ class VideoController extends Controller
             "title" => $request->input("title"),
             "thumbnail" => $thumbnail,
             "visibility" => $request->input("visibility") === "private" ? false : true,
+            "userId" => Auth::user()->id
         ]);
         
         return back();

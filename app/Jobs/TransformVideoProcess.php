@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Thumbnail;
 use App\Models\Video;
 use App\Models\VideoSegment;
-use App\Models\VideoSegmentManifest;
 
 class TransformVideoProcess implements ShouldQueue
 {
@@ -57,15 +56,16 @@ class TransformVideoProcess implements ShouldQueue
 
             $video = new Video();
             $video->title = $this->videoData["title"] ?? "Untitled";
-            $video->owner_id = 1;
+            $video->owner_id = $this->videoData["userId"];
             $video->thumbnail_id = $thumbnail->id;
             $video->public = $this->videoData["visibility"];
             
             try {
-                $output = shell_exec("$ffmpegBin -i ' . $fullPath . DIRECTORY_SEPARATOR . 'input.mp4 2>&1 | grep Duration");
+                $output = shell_exec("$ffmpegBin -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 2>&1");
                 $durationArray = explode(":", explode(".", explode(",", explode("Duration: ", $output)[1])[0])[0]);
                 $video->length = $durationArray[0] * 3600 + $durationArray[1] * 60 + $durationArray[2];
             } catch (\Throwable $th) {
+                Log::critical($th);
                 $video->length = 0;
             }
             
