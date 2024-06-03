@@ -14,16 +14,28 @@
                 <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}" class="video-grid-item">
                     <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
                     <div class="info">
-                        <p class="title">{{ $video->title }}</p>
-                        @if ($video->getViews() == 1)
-                            <div>{{$video->getViews()}} view</div>
-                        @else
-                            <div>{{$video->getViews()}} views</div>
-                        @endif
-        
-                        <div>{{$video->owner->name}}</div>
+                        <p class="title mb-2">{{ $video->title  }}</p>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div>{{$video->owner->name}}</div>
+                                <div>
+                                    {{$video->getViews()}}
+
+                                    @if ($video->getViews() == 1)
+                                        view
+                                    @else
+                                        views 
+                                    @endif
+
+                                    &#x2022; {{$video->getTimeAgo()}}
+                                    
+                                    @if ($video->isNew())
+                                        <div class="new-badge">NEW</div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
                 </a>
             @endforeach
         </video-grid>

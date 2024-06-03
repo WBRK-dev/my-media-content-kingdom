@@ -41,3 +41,11 @@
 .video-info {
     margin: 0 1rem 0.5rem 1rem;
 }
+
+.new-badge {
+    display: inline-block;
+    background-color: gray;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 3px;
+}

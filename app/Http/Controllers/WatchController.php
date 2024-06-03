@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Video;
 use App\Models\VideoLike;
-use App\Models\VideoReport;
 use App\Models\VideoView;
+use App\Models\VideoReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
