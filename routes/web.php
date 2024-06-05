@@ -27,8 +27,8 @@ Route::get("/", [HomeController::class, "show"])->name("home");
 
 Route::get('/search', [SearchController::class, "search"]);
 
-Route::get("/upload", [VideoController::class, "create"]);
-Route::post("/upload", [VideoController::class, "store"]);
+Route::get("/upload", [VideoController::class, "create"])->middleware("auth");
+Route::post("/upload", [VideoController::class, "store"])->middleware("auth");
 
 Route::delete("/delete/{video}", [VideoController::class, "destroy"]);
 
