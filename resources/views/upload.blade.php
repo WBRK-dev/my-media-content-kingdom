@@ -11,13 +11,8 @@
     
             <label for="title">Title: </label>
             <input type="text" name="title" required style="width: 500px;">
-            
+    
             <br><br>
-    
-            <input type="checkbox" name="autogeneratethumbnail" id="autogeneratethumbnail">
-            <label for="autogeneratethumbnail">Auto generate thumbnail</label>
-    
-            <br>
     
             <label for="image">Select a thumbnail: </label>
             <input type="file" name="image" accept="image/*">

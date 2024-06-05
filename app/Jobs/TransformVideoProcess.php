@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -50,7 +51,7 @@ class TransformVideoProcess implements ShouldQueue
             $ffmpegBin = env("FFMPEG_BINARY", "ffmpeg");
 
             $thumbnail = new Thumbnail();
-            $thumbnail->data = Storage::read($this->videoData["thumbnail"]);
+            $thumbnail->data = $this->videoData["thumbnail"] ? $this->videoData["thumbnail"] : "";
             $thumbnail->video_id = 0;
             $thumbnail->save();
 
@@ -82,6 +83,8 @@ class TransformVideoProcess implements ShouldQueue
             $videoPlaylist->save();
 
             $resolutions = ["640x360", "1280x720", "1920x1080"];
+
+            $thumbnailVideoSegmentIndex = null;
 
             foreach ($resolutions as $res) {
 
@@ -128,6 +131,12 @@ class TransformVideoProcess implements ShouldQueue
     1080/index.m3u8';
                     }
 
+                    $files = Storage::files($this->dirUuid . DIRECTORY_SEPARATOR . $yRes);
+                    if (!$thumbnailVideoSegmentIndex) $thumbnailVideoSegmentIndex = rand(0, count($files) - 1);
+                    shell_exec("$ffmpegBin -i " . storage_path("app") . DIRECTORY_SEPARATOR . $files[$thumbnailVideoSegmentIndex] . " -ss 00:00:05 -vframes 1 " . $fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
+                    $thumbnail->data = File::get($fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
+
+                    $thumbnail->save();
                     $video->save();
                     $videoPlaylist->save();
 
@@ -138,6 +147,6 @@ class TransformVideoProcess implements ShouldQueue
         } catch (\Throwable $th) { Log::critical($th); }
 
         // Cleanup
-        Storage::deleteDirectory($this->dirUuid);
+        // Storage::deleteDirectory($this->dirUuid);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ThumbnailController;
 
 
 /*
@@ -45,3 +46,5 @@ Route::get("/reported-videos", [ReportedVideosController::class, "show"]);
 
 Route::view("/login", "account.login")->middleware("nonauth");
 Route::view("/register", "account.register")->middleware("nonauth");
+
+Route::get("/api/thumbnail", [ThumbnailController::class, "show"]);

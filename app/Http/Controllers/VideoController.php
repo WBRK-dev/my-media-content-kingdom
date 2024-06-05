@@ -37,7 +37,8 @@ class VideoController extends Controller
         $uuid = Uuid::uuid4();
 
         $request->file("video")->storeAs($uuid, "input.mp4");
-        $thumbnail = $request->file("image")->storeAs($uuid, "thumbnail." . $request->file("image")->extension());
+        $thumbnail = null;
+        if ($request->hasFile("image")) $thumbnail = $request->file("image")->storeAs($uuid, "thumbnail." . $request->file("image")->extension());
 
         TransformVideoProcess::dispatchAfterResponse($uuid, [
             "title" => $request->input("title"),
