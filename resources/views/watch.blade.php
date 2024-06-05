@@ -31,47 +31,51 @@
             <div>{{$video->owner->name}}</div>
 
         </div>
-        <div class="d-flex gap-2">
-            <div class="d-flex gap-1">
-                <label for="chkbLike" id="lbLike">Likes:</label>
-                <div id="likeAmount">{{$video->getLikes()}}</div>
-                @if ($likestatus == 1)
-                    <input type="checkbox" id="chkbLike" checked>
-                @else
-                    <input type="checkbox" id="chkbLike">
-                @endif
+        @auth
+            <div class="d-flex gap-2">
+                <div class="d-flex gap-1">
+                    <label for="chkbLike" id="lbLike">Likes:</label>
+                    <div id="likeAmount">{{$video->getLikes()}}</div>
+                    @if ($likestatus == 1)
+                        <input type="checkbox" id="chkbLike" checked>
+                    @else
+                        <input type="checkbox" id="chkbLike">
+                    @endif
+                </div>
+                <div class="d-flex gap-1">
+                    <label for="chkbDislike">Dislikes:</label>
+                    <div id="dislikeAmount">{{$video->getDislikes()}}</div>
+                    @if ($likestatus === 0)
+                        <input type="checkbox" id="chkbDislike" checked>                   
+                    @else
+                        <input type="checkbox" id="chkbDislike">
+                    @endif
+                </div>
             </div>
-            <div class="d-flex gap-1">
-                <label for="chkbDislike">Dislikes:</label>
-                <div id="dislikeAmount">{{$video->getDislikes()}}</div>
-                @if ($likestatus === 0)
-                    <input type="checkbox" id="chkbDislike" checked>                   
-                @else
-                    <input type="checkbox" id="chkbDislike">
-                @endif
+            <div>
+                <button id="openFormBtn">Report video</button>
             </div>
-        </div>
-        <div>
-            <button id="openFormBtn">Report video</button>
-        </div>
-        <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
-            <div class="card-header">Report video</div>
-            <div class="card-content d-flex flex-column my-3">
-                <form>
-                    @csrf
-                    @foreach (config('app.report_reasons') as $reason)
-                        <div class="my-2">
-                            <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
-                            <label for="reason{{$loop->index}}">{{$reason}}</label>
-                        </div>
-                    @endforeach
-                </form>
+            <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
+                <div class="card-header">Report video</div>
+                <div class="card-content d-flex flex-column my-3">
+                    <form>
+                        @csrf
+                        @foreach (config('app.report_reasons') as $reason)
+                            <div class="my-2">
+                                <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
+                                <label for="reason{{$loop->index}}">{{$reason}}</label>
+                            </div>
+                        @endforeach
+                    </form>
+                </div>
+                <div class="card-footer d-flex">
+                    <button id="formBtn" type="button">Submit</button>
+                    <button id="closeFormBtn">X</button>
+                </div>
             </div>
-            <div class="card-footer d-flex">
-                <button id="formBtn" type="button">Submit</button>
-                <button id="closeFormBtn">X</button>
-            </div>
-        </div>
+        @endauth
+        
+        
 
     </div></div>
 
@@ -172,6 +176,8 @@
                 method: "POST",
                 body: formData,
             })
+            closeReportBox();
+
         }
 
         function showReportBox() {
