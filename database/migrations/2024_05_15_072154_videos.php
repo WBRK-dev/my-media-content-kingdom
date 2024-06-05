@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer("length")->default(0);
             $table->boolean("public");
             $table->boolean("processed")->default(false);
+            $table->boolean("terminated")->default(0);
+            $table->timestamp('terminated_at')->nullable(true);
             $table->timestamps();
         });
     }
