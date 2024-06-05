@@ -19,5 +19,3 @@ use App\Http\Controllers\ThumbnailController;
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get("/thumbnail", [ThumbnailController::class, "show"]);
