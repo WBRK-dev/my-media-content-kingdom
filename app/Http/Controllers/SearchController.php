@@ -14,7 +14,7 @@ class SearchController extends Controller
         $videos = Video::select('videos.*', 'video_likes.liked as likes', 'video_views.amount as views')
             ->leftJoin('video_likes', 'videos.id', '=', 'video_likes.video_id')
             ->leftJoin('video_views', 'videos.id', '=', 'video_views.video_id')
-            ->groupBy('videos.created_at', 'video_likes.video_id', 'video_views.amount', 'videos.id', 'videos.title', 'videos.thumbnail_id', 'videos.owner_id', 'videos.public', 'videos.updated_at', 'video_likes.liked', 'videos.length', 'videos.processed');
+            ->groupBy('videos.created_at', 'video_likes.video_id', 'video_views.amount', 'videos.id', 'videos.title', 'videos.thumbnail_id', 'videos.owner_id', 'videos.public', 'videos.updated_at', 'video_likes.liked', 'videos.length', 'videos.processed', 'video.terminated');
         foreach ($q as $word) {
             $videos->orWhere('title', 'LIKE', "%$word%");
         }

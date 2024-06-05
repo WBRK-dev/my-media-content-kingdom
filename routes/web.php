@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReportedVideosController;
 use App\Http\Controllers\WatchController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,8 @@ Route::get("/api/watch/liked", [WatchController::class, "videoLiked"]);
 Route::get("/api/watch/disliked", [WatchController::class, "videoDisliked"]);
 Route::get("/api/watch/like_rem_row", [WatchController::class, "deleteLikeRow"]);
 Route::post("/api/watch/report_video", [WatchController::class, "videoReported"]);
+
+Route::get("/reported-videos", [ReportedVideosController::class, "show"]);
 
 Route::view("/login", "account.login")->middleware("nonauth");
 Route::view("/register", "account.register")->middleware("nonauth");

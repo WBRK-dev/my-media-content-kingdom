@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('video_views', function (Blueprint $table) {
             $table->id();
-            $table->integer("user_id");
+            $table->integer("user_id")->nullable();
             $table->integer("video_id");
             $table->integer("amount");
             $table->timestamp('created_at')->useCurrent();
