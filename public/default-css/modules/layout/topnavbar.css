@@ -86,6 +86,7 @@
     outline-color: #ffffff;
     color: #ffff;
     min-width: 125px;
+    cursor: pointer;
 }
 
 a.login, a.logout, a.upload {
