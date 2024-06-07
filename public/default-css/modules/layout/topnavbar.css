@@ -37,27 +37,23 @@
     background-color: #343A40;
     border: none;
     outline: none;
-    width: 200px; /* Adjust the width as needed */
+    width: 200px;
 }
 
 .search-bar:focus-visible {
-    outline: none; /* Change to the color you want when active */
-    border-color: #007BFF;
+    outline: none;
+    border-color: #00b4d8;
 }
 
 .search-bar {
-    color: #ffffff; /* Change to the color you want when active */
+    color: #ffffff;
     border-color: #ffff;
 }
 
-.delete{
-    padding: 5px;
-    background: none;
-    border: none;
-    color: white;
-    display: flex;
-
+#search-bar {
+    padding-top: 5px;
 }
+
 .delete {
     padding: 5px;
     background: none;
@@ -71,12 +67,11 @@
 }
 
 .delete:hover {
-    color: #007BFF; /* Verander naar de kleur die je wilt bij hover */
+    color: #00b4d8;
 }
 
 
 .filter-button{
-    border: 2px white;
     background: none;
     border-radius: 25px;
     padding: 5px;
@@ -89,7 +84,17 @@
     cursor: pointer;
 }
 
+.filter-button:hover {
+    border-color: #00b4d8;
+    outline-color: #00b4d8;
+}
+
 a.login, a.logout, a.upload {
     color: white;
+    text-decoration: none;
+}
+
+a.login:hover, a.logout:hover, a.upload:hover {
+    color: #00b4d8;
     text-decoration: none;
 }

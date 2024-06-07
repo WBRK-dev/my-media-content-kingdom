@@ -3,11 +3,11 @@
     <a href="{{ config("app.url") }}" class="logo">MMCK</a>
 
     <form method="GET" action="{{ config('app.url') }}/search">
-        <div class="d-flex">
+        <div class="d-flex" id="search-bar">
             <input type="text" id="search-bar" class="search-bar" name="q" value="{{ isset($_GET['q']) ? $_GET['q'] : '' }}" placeholder="Search..." autocomplete="off">
             <button type="button"class="delete" onclick="clearSearchBar()"><span class="material-symbols-outlined">close </span></button>
         </div>
-        <div class="d-flex justify-content-center p-2 gap-4">
+        <div class="d-flex justify-content-center p-2 gap-4" id="filter-buttons">
             <button name="filter" class="filter-button" value="release_date">Release Date</button>
             <button name="filter" class="filter-button" value="length">Length</button>
             <button name="filter" class="filter-button" value="views">Views</button>
