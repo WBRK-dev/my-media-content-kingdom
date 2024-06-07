@@ -2,6 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-color:#343A40; 
 }
 
 .main-layout {

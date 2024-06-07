@@ -1,7 +1,7 @@
 .topnavbar {
-    display: flex; gap: .5rem;
+    display: flex;
+    gap: .5rem;
     align-items: center;
-
     padding: 0 .5rem;
     height: 60px;
     flex-shrink: 0;
@@ -10,17 +10,80 @@
 .topnavbar .logo {
     font-size: 20px;
     font-weight: 700;
-
-    color: #000;
+    color: #00b4d8;
     text-decoration: none;
 }
 
 .topnavbar form {
-    margin: 0 auto; 
-    display: block; 
+    margin: 0 auto;
+    display: block;
     width: min(800px, 100%);
 }
 
 .topnavbar form input {
     width: 100%;
+}
+
+.search-bar {
+    border: 2px solid white;
+    background-color: #343A40;
+    border-radius: 25px;
+    padding: 5px;
+    display: inline-block;
+}
+
+.search-bar-input {
+    color: white;
+    background-color: #343A40;
+    border: none;
+    outline: none;
+    width: 200px; /* Adjust the width as needed */
+}
+
+.search-bar:focus-visible {
+    outline: none; /* Change to the color you want when active */
+    border-color: #007BFF;
+}
+
+.search-bar {
+    color: #ffffff; /* Change to the color you want when active */
+    border-color: #ffff;
+}
+
+.delete{
+    padding: 5px;
+    background: none;
+    border: none;
+    color: white;
+    display: flex;
+
+}
+.delete {
+    padding: 5px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    padding-top: 10px;
+}
+
+.delete:hover {
+    color: #007BFF; /* Verander naar de kleur die je wilt bij hover */
+}
+
+
+.filter-button{
+    border: 2px white;
+    background: none;
+    border-radius: 25px;
+    padding: 5px;
+    display: inline-block;
+    outline-style: groove;
+    padding-top: 5px;
+    outline-color: #ffffff;
+    color: #ffff;
+    min-width: 125px;
 }
