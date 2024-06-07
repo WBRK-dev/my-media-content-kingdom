@@ -18,11 +18,11 @@
 
     @if (Auth::check())
         <div class="d-flex gap-2">
-            <a href="{{ config("app.url") }}/upload">Upload</a>
-            <form action="{{ config("app.url") }}/logout" method="post">@csrf<button>Logout</button></form>
+            <a href="{{ config("app.url") }}/upload" class="upload">Upload</a>
+            <form action="{{ config("app.url") }}/logout" class="logout" method="post">@csrf<button>Logout</button></form>
         </div>
     @else
-        <a href="{{ config("app.url") }}/login">Login</a>
+        <a href="{{ config("app.url") }}/login" class="login">Login</a>
     @endif
 </div>
 

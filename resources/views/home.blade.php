@@ -10,7 +10,7 @@
                 <video-grid-item>
                     <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
                         <div class="img-wrapper">
-                            <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" style="width: 100%;">
+                            <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" class="video-thumbnail" style="width: 100%;">
                             <p class="tag">{{ $video->shortDuration() }}</p>
                         </div>
                         <div class="info">

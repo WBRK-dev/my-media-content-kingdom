@@ -21,4 +21,5 @@ main {
     width: min(800px, 100%);
     box-sizing: border-box;
     color: white;
+    text-align: center;
 }
