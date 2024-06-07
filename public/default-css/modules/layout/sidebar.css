@@ -1,31 +1,47 @@
 .sidebar {
-    width: 200px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    flex-shrink: 0;
-  }
-  
-  .sidebar-item {
-    margin-bottom: 10px;
-    padding: 5px 0;
-  }
-  
-  .home-item {
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .last-item {
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .sidebar a {
-    text-decoration: none;
-    color: #333; /* Dark text color */
-    font-weight: bold;
-  }
-  
-  .sidebar a:hover {
-    color: #007BFF;
-  }
+  width: 200px;
+  padding: 15px;
+  background-color: #343A40;
+  border: 1px solid #00b4d8;
+  border-radius: 5px;
+}
+
+.sidebar-item {
+  margin-bottom: 10px;
+  padding: 5px 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: medium;
+}
+
+.sidebar-item:last-child {
+  margin-bottom: 0;
+}
+
+.home-item,.last-item {
+  border-bottom: 1px solid #ddd;
+  border-bottom-color: #00b4d8;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar a:hover {
+  color: #00b4d8;
+}
+
+/* Icon specific styles */
+.sidebar .material-symbols-outlined {
+  color: #00b4d8;
+  font-size: 24px;
+  margin-right: 8px;
+}

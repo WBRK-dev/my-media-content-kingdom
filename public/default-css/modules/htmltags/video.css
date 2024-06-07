@@ -6,6 +6,8 @@ video-grid {
 video-grid-item {
     display: block;
     width: 100%;
+    background-color: #282d31;
+    border-radius: .5rem;
 }
 
 video-grid-item a {
@@ -18,6 +20,8 @@ video-grid-item img {
     width: 100%;
     aspect-ratio: 16/9;
     border-radius: .5rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     object-fit: contain;
     background-color: #474747;
 }
@@ -42,8 +46,22 @@ video-grid-item .img-wrapper .tag {
 
     padding: .25rem .5rem;
     background-color: #474747;
-    border-radius: .25rem;
+    border-radius: .5rem;
     color: #fff;
 
     box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+}
+
+.video-thumbnail {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.info {
+    color: white;
+    background-color: #282d31;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    margin-left: 5px;
+    padding-bottom: 5px;
 }

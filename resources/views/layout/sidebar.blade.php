@@ -10,6 +10,8 @@
     <div class="sidebar-item last-item">
         <span class="material-symbols-outlined">playlist_play</span>
         <a href="{{ config('app.url') }}">Playlists</a>
+      
+ 
     </div>
     
 </div>

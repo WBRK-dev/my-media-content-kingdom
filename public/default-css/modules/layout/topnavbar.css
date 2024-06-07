@@ -1,7 +1,7 @@
 .topnavbar {
-    display: flex; gap: .5rem;
+    display: flex;
+    gap: .5rem;
     align-items: center;
-
     padding: 0 .5rem;
     height: 60px;
     flex-shrink: 0;
@@ -10,17 +10,91 @@
 .topnavbar .logo {
     font-size: 20px;
     font-weight: 700;
-
-    color: #000;
+    color: #00b4d8;
     text-decoration: none;
 }
 
 .topnavbar form {
-    margin: 0 auto; 
-    display: block; 
+    margin: 0 auto;
+    display: block;
     width: min(800px, 100%);
 }
 
 .topnavbar form input {
     width: 100%;
+}
+
+.search-bar {
+    border: 2px solid white;
+    background-color: #343A40;
+    border-radius: 25px;
+    padding: 5px;
+    display: inline-block;
+}
+
+.search-bar-input {
+    color: white;
+    background-color: #343A40;
+    border: none;
+    outline: none;
+    width: 200px;
+}
+
+.search-bar:focus-visible {
+    outline: none;
+    border-color: #00b4d8;
+}
+
+.search-bar {
+    color: #ffffff;
+    border-color: #ffff;
+}
+
+#search-bar {
+    padding-top: 5px;
+}
+
+.delete {
+    padding: 5px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    padding-top: 10px;
+}
+
+.delete:hover {
+    color: #00b4d8;
+}
+
+
+.filter-button{
+    background: none;
+    border-radius: 25px;
+    padding: 5px;
+    display: inline-block;
+    outline-style: groove;
+    padding-top: 5px;
+    outline-color: #ffffff;
+    color: #ffff;
+    min-width: 125px;
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    border-color: #00b4d8;
+    outline-color: #00b4d8;
+}
+
+a.login, a.logout, a.upload {
+    color: white;
+    text-decoration: none;
+}
+
+a.login:hover, a.logout:hover, a.upload:hover {
+    color: #00b4d8;
+    text-decoration: none;
 }
