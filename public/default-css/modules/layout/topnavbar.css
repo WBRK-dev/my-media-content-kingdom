@@ -87,3 +87,8 @@
     color: #ffff;
     min-width: 125px;
 }
+
+a.login, a.logout, a.upload {
+    color: white;
+    text-decoration: none;
+}
