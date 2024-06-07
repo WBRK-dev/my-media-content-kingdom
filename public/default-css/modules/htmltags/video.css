@@ -6,6 +6,9 @@ video-grid {
 video-grid-item {
     display: block;
     width: 100%;
+    background-color: #282d31;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
 }
 
 video-grid-item a {
@@ -18,6 +21,8 @@ video-grid-item img {
     width: 100%;
     aspect-ratio: 16/9;
     border-radius: .5rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     object-fit: contain;
     background-color: #474747;
 }
