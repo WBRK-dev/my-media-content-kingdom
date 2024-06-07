@@ -12,12 +12,10 @@
 
 .video-grid-item {
     width: 100%;
-
-    background-color: white;
-
     color: #000;
+    background-color: #282d31;
+    border-radius: 1rem;
     text-decoration: none;
-
     overflow: hidden;
 }
 
@@ -31,7 +29,7 @@
 }
 
 .video-grid-item p {
-    margin: .5rem 1rem;
+    margin: .5rem 0;
     font-weight: 700;
     font-size: 18px;
 }

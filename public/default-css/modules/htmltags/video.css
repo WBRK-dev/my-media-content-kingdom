@@ -7,8 +7,7 @@ video-grid-item {
     display: block;
     width: 100%;
     background-color: #282d31;
-    border-top-left-radius: .5rem;
-    border-top-right-radius: .5rem;
+    border-radius: .5rem;
 }
 
 video-grid-item a {
@@ -63,4 +62,6 @@ video-grid-item .img-wrapper .tag {
     background-color: #282d31;
     border-bottom-left-radius: .5rem;
     border-bottom-right-radius: .5rem;
+    margin-left: 5px;
+    padding-bottom: 5px;
 }
