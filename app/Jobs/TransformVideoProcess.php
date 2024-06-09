@@ -131,10 +131,12 @@ class TransformVideoProcess implements ShouldQueue
     1080/index.m3u8';
                     }
 
-                    $files = Storage::files($this->dirUuid . DIRECTORY_SEPARATOR . $yRes);
-                    if (!$thumbnailVideoSegmentIndex) $thumbnailVideoSegmentIndex = rand(0, count($files) - 1);
-                    shell_exec("$ffmpegBin -i " . storage_path("app") . DIRECTORY_SEPARATOR . $files[$thumbnailVideoSegmentIndex] . " -ss 00:00:05 -vframes 1 " . $fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
-                    $thumbnail->data = File::get($fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
+                    if (!isset($this->videoData["thumbnail"])) {
+                        $files = Storage::files($this->dirUuid . DIRECTORY_SEPARATOR . $yRes);
+                        if (!$thumbnailVideoSegmentIndex) $thumbnailVideoSegmentIndex = rand(0, count($files) - 1);
+                        shell_exec("$ffmpegBin -i " . storage_path("app") . DIRECTORY_SEPARATOR . $files[$thumbnailVideoSegmentIndex] . " -ss 00:00:05 -vframes 1 " . $fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
+                        $thumbnail->data = File::get($fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
+                    }
 
                     $thumbnail->save();
                     $video->save();
