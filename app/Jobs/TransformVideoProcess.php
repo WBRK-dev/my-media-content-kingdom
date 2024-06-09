@@ -149,6 +149,6 @@ class TransformVideoProcess implements ShouldQueue
         } catch (\Throwable $th) { Log::critical($th); }
 
         // Cleanup
-        // Storage::deleteDirectory($this->dirUuid);
+        Storage::deleteDirectory($this->dirUuid);
     }
 }
