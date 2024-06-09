@@ -10,7 +10,7 @@
             @csrf
     
             <label for="title">Title: </label>
-            <input type="text" name="title" required style="width: 500px;">
+            <input type="text" name="title" id="title" required style="width: 500px;">
     
             <br><br>
     
@@ -25,24 +25,45 @@
             <br><br>
     
             <p>Video visibility</p>
-            <input type="radio" name="visibility" value="public" id="visibilitypublic" checked><label for="visibilitypublic">Public</label><br>
-            <input type="radio" name="visibility" value="private" id="visibilityprivate"><label for="visibilityprivate">Private</label>
+            <input type="radio" name="visibility" value="public" id="visibilitypublic1" checked><label for="visibilitypublic1">Public</label><br>
+            <input type="radio" name="visibility" value="private" id="visibilityprivate1"><label for="visibilityprivate1">Private</label>
+    
+            <br><br>
+    
+            <button>Upload</button>
+    
+        </form>
+
+        <h1 class="mt-2">Upload from Youtube</h1>
+        <form action="{{ config("app.url") }}/upload-youtube" method="post">
+    
+            @csrf
+    
+            <label for="youtubeid">Youtube ID: </label>
+            <input type="text" name="youtubeid" id="youtubeid" required style="width: 500px;">
+    
+            <br><br>
+    
+            <p>Video visibility</p>
+            <input type="radio" name="visibility" value="public" id="visibilitypublic2" checked><label for="visibilitypublic2">Public</label><br>
+            <input type="radio" name="visibility" value="private" id="visibilityprivate2"><label for="visibilityprivate2">Private</label>
     
             <br><br>
     
             <button>Upload</button>
 
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-    
+            
         </form>
+        
+        @if($errors->any())
+            <div class="alert alert-danger mt-4">
+                <ul> 
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
     </div>
     

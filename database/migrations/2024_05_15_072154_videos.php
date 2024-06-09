@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer("owner_id");
             $table->integer("length")->default(0);
             $table->boolean("public");
+            $table->string("youtube_id")->nullable(true);
             $table->boolean("processed")->default(false);
             $table->boolean("terminated")->default(0);
             $table->timestamp('terminated_at')->nullable(true);

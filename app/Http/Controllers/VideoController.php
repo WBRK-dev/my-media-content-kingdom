@@ -9,7 +9,10 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Video;
 use App\Models\VideoSegment;
 use App\Jobs\TransformVideoProcess;
+use App\Jobs\TransformVideoFromYoutubeProcess;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class VideoController extends Controller
 {
@@ -89,6 +92,81 @@ class VideoController extends Controller
     {
         $video->delete();
         return redirect("/");
+    }
+
+    /**
+     * Store a resource from youtube in storage.
+     */
+    public function storeFromYoutube(Request $request)
+    {
+        $uuid = Uuid::uuid4();
+        Storage::disk("local")->makeDirectory($uuid);
+
+        $data = Http::withHeaders([
+            "Host"=>"www.youtube.com",
+            "Content-Type"=>"application/json",
+            "User-Agent"=>"com.google.android.youtube/17.10.35 (Linux; U; Android 12; GB) gzip",
+            "Accept"=>"*/*",
+            "Origin"=>"https://www.youtube.com",
+            "Referer"=>"https://www.youtube.com/",
+            "Accept-Encoding"=>"gzip, deflate",
+            "Accept-Language"=>"de,de-DE;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        ])->post("https://www.youtube.com/youtubei/v1/player?key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w", [
+            "context"=>[
+                "client"=>[
+                    "hl"=>"en",
+                    "gl"=>"US",
+                    "clientName"=>"ANDROID",
+                    "clientVersion"=>"17.36.4",
+                    "androidSdkVersion"=>"31"
+                ]
+            ],
+            "videoId"=>$request->input("youtubeid"),
+            "racyCheckOk"=>true,
+            "contentCheckOk"=>true
+        ]);
+
+        $videoFormats = array_values(array_filter($data->json()["streamingData"]["adaptiveFormats"], function($format) {
+            return str_contains($format["mimeType"], "video/mp4");
+        }));
+        $audioFormats = array_values(array_filter($data->json()["streamingData"]["adaptiveFormats"], function($format) {
+            return str_contains($format["mimeType"], "audio/mp4") && ( $format["audioQuality"] === "AUDIO_QUALITY_MEDIUM" || $format["audioQuality"] === "AUDIO_QUALITY_HIGH" );
+        }));
+        $thumbnails = $data->json()["videoDetails"]["thumbnail"]["thumbnails"];
+        $thumbnailHeights = array_map(function($thumbnail) {
+            return $thumbnail["height"];
+        }, $thumbnails);
+
+        $videoFormat = null; $audioFormat = null; $thumbnail = null;
+        for ($i=0; $i < count($videoFormats); $i++) { 
+            if ($videoFormats[$i]["height"] <= 1080) {
+                $videoFormat = $videoFormats[$i];
+                break;
+            }
+        }
+        $audioFormat = $audioFormats[0] ?? null;
+
+        try {
+            $thumbnail = $thumbnails[array_search(max($thumbnailHeights), $thumbnailHeights)]["url"];
+        } catch (\Throwable $th) { Log::error("Unable to find thumbnail."); }
+
+        if ($videoFormat === null || $audioFormat === null || $thumbnail === null) { 
+            Log::error("A video or audio format could not be found."); 
+            Storage::write($uuid . DIRECTORY_SEPARATOR . "youtube-api-response.json", $data->body());
+            return;
+        }
+
+        TransformVideoFromYoutubeProcess::dispatchAfterResponse($uuid, [
+            "title" =>      $data->json()["videoDetails"]["title"] . " - " . $data->json()["videoDetails"]["author"],
+            "thumbnail" =>  $thumbnail,
+            "visibility" => $request->input("visibility") === "private" ? false : true,
+            "userId" =>     Auth::user()->id,
+            "video" =>      $videoFormat["url"],
+            "audio" =>      $audioFormat["url"],
+            "youtubeId" =>  $request->input("youtubeid")
+        ]);
+
+        return back();
     }
 
    /*

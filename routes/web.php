@@ -9,7 +9,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ThumbnailController;
-
+use App\Models\Video;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +30,7 @@ Route::get('/search', [SearchController::class, "search"]);
 
 Route::get("/upload", [VideoController::class, "create"])->middleware("auth");
 Route::post("/upload", [VideoController::class, "store"])->middleware("auth");
+Route::post("/upload-youtube", [VideoController::class, "storeFromYoutube"])->middleware("auth");
 
 Route::delete("/delete/{video}", [VideoController::class, "destroy"]);
 
@@ -48,3 +49,5 @@ Route::view("/login", "account.login")->middleware("nonauth");
 Route::view("/register", "account.register")->middleware("nonauth");
 
 Route::get("/api/thumbnail", [ThumbnailController::class, "show"]);
+
+Route::get("/test", [VideoController::class, "test"]);
