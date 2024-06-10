@@ -15,8 +15,10 @@
 }
 
 .topnavbar form {
+    display: flex;
+    align-items: center;
+
     margin: 0 auto;
-    display: block;
     width: min(800px, 100%);
 }
 
@@ -50,12 +52,7 @@
     border-color: #ffff;
 }
 
-#search-bar {
-    padding-top: 5px;
-}
-
 .delete {
-    padding: 5px;
     background: none;
     border: none;
     color: white;
@@ -63,7 +60,6 @@
     cursor: pointer;
     display: flex; 
     align-items: center;
-    padding-top: 10px;
 }
 
 .delete:hover {
