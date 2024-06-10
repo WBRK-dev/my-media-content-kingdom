@@ -1,7 +1,24 @@
+let searchbar;
+let rightClickAmount = 0;
+
 function clearSearchBar() {
-    let elem = document.getElementById("search-bar");
-    elem.value = "";
+    searchbar.value = "";
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    searchbar = document.getElementById("search-bar");
+
+    searchbar.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        rightClickAmount++;
+        if (rightClickAmount >= 2) {
+            clearSearchBar();
+        }
+        setTimeout(() => {
+            rightClickAmount -= 1;
+        }, 200);
+    });
+});
 
 // document.addEventListener('DOMContentLoaded', function() {
 //     const searchBar = document.querySelector('.search-bar');
