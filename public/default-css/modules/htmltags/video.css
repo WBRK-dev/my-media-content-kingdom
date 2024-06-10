@@ -25,6 +25,7 @@ video-grid-item img {
     object-fit: contain;
     background-color: #474747;
 }
+video-grid-item.youtube img {object-fit: cover;}
 
 video-grid-item .info {
     padding: .5rem;
