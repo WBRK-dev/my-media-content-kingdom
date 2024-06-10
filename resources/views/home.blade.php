@@ -7,7 +7,7 @@
         </div>
         <video-grid class="w-100">
             @foreach ($videos as $video)
-                <video-grid-item>
+                <video-grid-item class="{{ $video->isFromYoutube() ? "youtube" : "" }}">
                     <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
                         <div class="img-wrapper">
                             <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" class="video-thumbnail" style="width: 100%;">
