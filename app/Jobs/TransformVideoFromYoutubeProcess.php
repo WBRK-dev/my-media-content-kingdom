@@ -45,25 +45,12 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
         $fullPath = $this->dir;
 
         $ffmpegBin = env("FFMPEG_BINARY", "ffmpeg");
-
-        // Store youtube files
-        $thumbnail = null;
-        try {
-            shell_exec("$ffmpegBin -i \"" . $this->videoData["video"] . "\" -c copy -bsf:a aac_adtstoasc " . $fullPath . DIRECTORY_SEPARATOR . "input-video.mp4");
-            shell_exec("$ffmpegBin -i \"" . $this->videoData["audio"] . "\" -c copy -bsf:a aac_adtstoasc " . $fullPath . DIRECTORY_SEPARATOR . "input-audio.mp4");
-    
-            shell_exec("$ffmpegBin -i $fullPath" . DIRECTORY_SEPARATOR . "input-video.mp4 -i \"$fullPath" . DIRECTORY_SEPARATOR . "input-audio.mp4\" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 \"" . $fullPath . DIRECTORY_SEPARATOR . "input.mp4\"");
-        
-            $thumbnail = Http::get($this->videoData["thumbnail"])->body();
-            Storage::put($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp", $thumbnail);
-        } catch (\Throwable $th) { Log::error("Failed to get youtube assets"); }
-
     
         // Store segments and segment manifests
         try {
 
             $thumbnail = new Thumbnail();
-            $thumbnail->data = Storage::read($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp");
+            $thumbnail->data = "";
             $thumbnail->video_id = 0;
             $thumbnail->save();
 
@@ -73,6 +60,18 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
             $video->thumbnail_id = $thumbnail->id;
             $video->public = $this->videoData["visibility"];
             $video->youtube_id = $this->videoData["youtubeId"];
+            $video->save();
+
+            // Store youtube files
+            $thumbnailSource = Http::get($this->videoData["thumbnail"])->body();
+            Storage::put($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp", $thumbnailSource);
+            $thumbnail->data = Storage::read($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp");
+            $thumbnail->save();
+            
+            shell_exec("$ffmpegBin -i \"" . $this->videoData["video"] . "\" -c copy -bsf:a aac_adtstoasc " . $fullPath . DIRECTORY_SEPARATOR . "input-video.mp4");
+            shell_exec("$ffmpegBin -i \"" . $this->videoData["audio"] . "\" -c copy -bsf:a aac_adtstoasc " . $fullPath . DIRECTORY_SEPARATOR . "input-audio.mp4");
+            
+            shell_exec("$ffmpegBin -i $fullPath" . DIRECTORY_SEPARATOR . "input-video.mp4 -i \"$fullPath" . DIRECTORY_SEPARATOR . "input-audio.mp4\" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 \"" . $fullPath . DIRECTORY_SEPARATOR . "input.mp4\"");
             
             try {
                 $output = shell_exec("$ffmpegBin -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 2>&1");
@@ -80,7 +79,6 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
                 $video->length = $durationArray[0] * 3600 + $durationArray[1] * 60 + $durationArray[2];
             } catch (\Throwable $th) {
                 Log::critical($th);
-                $video->length = 0;
             }
             
             $video->save();
@@ -155,6 +153,6 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
         } catch (\Throwable $th) { Log::critical($th); }
 
         // Cleanup
-        // Storage::deleteDirectory($this->dirUuid);
+        Storage::deleteDirectory($this->dirUuid);
     }
 }
