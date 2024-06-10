@@ -1,7 +1,35 @@
 @extends('layout.root')
 
 @section('body')
-    <main class="p-2">
+    <main class="d-flex flex-column gap-2 p-2">
+
+        <div class="p-2" style="background-color: var(--body-secondary-bg); border-radius: 1rem;">
+            <form>
+                <p class="fs-5 fw-bold mb-2">Search Filters</p>
+    
+                <div class="d-flex gap-2">
+    
+                    <div>
+                        <p class="fw-bold mb-1">Filter on</p>
+                        <input type="radio" name="filter" id="filter1"><label for="filter1">Release Date</label><br>
+                        <input type="radio" name="filter" id="filter2"><label for="filter2">Length</label><br>
+                        <input type="radio" name="filter" id="filter3"><label for="filter3">Views</label><br>
+                        <input type="radio" name="filter" id="filter4"><label for="filter4">Likes</label>
+                    </div>
+
+                    <div>
+                        <p class="fw-bold mb-1">Sorting</p>
+                        <input type="radio" name="sort" id="sort1"><label for="sort1">Descending</label><br>
+                        <input type="radio" name="sort" id="sort2"><label for="sort2">Ascending</label>
+                    </div>
+    
+                </div>
+
+                <div class="d-flex mt-2"><button class="">Filter</button></div>
+            </form>
+
+        </div>
+
         <video-grid>
             @foreach ($videos as $video)
             <div class="video-grid-item">

@@ -19,3 +19,15 @@
     margin: 0;
     font-family: 'Inter', sans-serif;
 }
+
+body {
+
+    color: var(--body-color);
+
+    --body-bg: #343A40;
+    --body-color: #fff;
+
+    --body-secondary-bg: #444b52;
+    --body-secondary-color: #adadad;
+
+}

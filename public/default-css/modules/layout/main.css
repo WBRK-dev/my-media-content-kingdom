@@ -17,5 +17,4 @@ body {
 .main-layout-body {
     flex-grow: 1;
     overflow-y: auto;
-    padding-top: 6px;
 }
