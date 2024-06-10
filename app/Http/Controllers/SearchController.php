@@ -20,24 +20,15 @@ class SearchController extends Controller
             $videos->orWhere('title', 'LIKE', "%$word%");
         }
 
-        if ($filter == "release-date" && $direction == "desc") {
-            $videos->orderBy("created_at", "desc");
-        } else if ($filter == "length" && $direction == "desc") {
-            $videos->orderBy("length", "desc");
-        } else if ($filter == "views" && $direction == "desc") {
-            $videos->orderBy("views", "desc");
-        } else if ($filter == "likes" && $direction == "desc") {
-            $videos->orderBy("likes", "desc");
-        } else if ($filter == "release-date" && $direction == "asc") {
-            $videos->orderBy("created_at", "asc");
-        } else if ($filter == "length" && $direction == "asc") {
-            $videos->orderBy("length", "asc");
-        } else if ($filter == "views" && $direction == "asc") {
-            $videos->orderBy("views", "asc");
-        } else if ($filter == "likes" && $direction == "asc") {
-            $videos->orderBy("likes", "asc");
+        if ($filter == "release-date") {
+            $videos->orderBy("created_at", $direction);
+        } else if ($filter == "length") {
+            $videos->orderBy("length", $direction);
+        } else if ($filter == "views") {
+            $videos->orderBy("views", $direction);
+        } else if ($filter == "likes") {
+            $videos->orderBy("likes", $direction);
         }
-
         $videos = $videos->distinct()->get();
         return view('search', [
             'videos' => $videos
