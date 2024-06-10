@@ -51,7 +51,7 @@ class TransformVideoProcess implements ShouldQueue
             $ffmpegBin = env("FFMPEG_BINARY", "ffmpeg");
 
             $thumbnail = new Thumbnail();
-            $thumbnail->data = $this->videoData["thumbnail"] ? $this->videoData["thumbnail"] : "";
+            $thumbnail->data = $this->videoData["thumbnail"] ? Storage::read($this->videoData["thumbnail"]) : "";
             $thumbnail->video_id = 0;
             $thumbnail->save();
 
