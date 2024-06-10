@@ -82,4 +82,8 @@ class Video extends Model
             return "0s";
         }
     }
+
+    public function isFromYoutube() {
+        return $this->youtube_id !== null;
+    }
 }
