@@ -14,6 +14,10 @@
         queryElem.addEventListener("keyup", function(e) {
             filterElem.value = e.target.value;
         });
+
+        let filterSelected = ;
+        let sortSelected = ;
+        console.log(filterSelected, sortSelected);
     });
 </script>
 @endsection
@@ -29,16 +33,16 @@
     
                     <div>
                         <p class="fw-bold mb-1">Filter on</p>
-                        <input type="radio" name="filter" id="filter1" value="release-date"><label for="filter1">Release Date</label><br>
-                        <input type="radio" name="filter" id="filter2" value="length"><label for="filter2">Length</label><br>
-                        <input type="radio" name="filter" id="filter3" value="views"><label for="filter3">Views</label><br>
-                        <input type="radio" name="filter" id="filter4" value="likes"><label for="filter4">Likes</label>
+                        <input type="radio" name="filter" id="created_at" value="created_at"{{ $_GET["filter"] === "created_at" ? "checked" : "" }}><label for="created_at">Release Date</label><br>
+                        <input type="radio" name="filter" id="length" value="length"{{ $_GET["filter"] === "length" ? "checked" : "" }}><label for="length">Length</label><br>
+                        <input type="radio" name="filter" id="views" value="views"{{ $_GET["filter"] === "views" ? "checked" : "" }}><label for="views">Views</label><br>
+                        <input type="radio" name="filter" id="likes" value="likes"{{ $_GET["filter"] === "likes" ? "checked" : "" }}><label for="likes">Likes</label>
                     </div>
                     
                     <div>
                         <p class="fw-bold mb-1">Sorting</p>
-                        <input type="radio" name="sort" id="sort1" value="desc"><label for="sort1">Descending</label><br>
-                        <input type="radio" name="sort" id="sort2" value="asc"><label for="sort2">Ascending</label>
+                        <input type="radio" name="sort" id="desc" value="desc"{{ $_GET["sort"] === "desc" ? "checked" : "checked" }}><label for="desc">Desc</label><br>
+                        <input type="radio" name="sort" id="asc" value="asc"{{ $_GET["sort"] === "asc" ? "checked" : "" }}><label for="asc">Asc</label>
                     </div>
                     
                     <input type="hidden" name="q" id="filter-query" value="">

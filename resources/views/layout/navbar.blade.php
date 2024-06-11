@@ -4,6 +4,8 @@
 
     <form method="GET" action="{{ config('app.url') }}/search">
         <div class="d-flex w-100">
+            <input type="hidden" name="filter" value="created_at">
+            <input type="hidden" name="sort" value="desc">
             <input type="text" id="search-bar" class="search-bar" name="q" value="{{ isset($_GET['q']) ? $_GET['q'] : '' }}" placeholder="Search..." autocomplete="off">
             <button type="button"class="delete" onclick="clearSearchBar()"><span class="material-symbols-outlined">close </span></button>
         </div>
