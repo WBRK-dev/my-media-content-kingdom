@@ -13,7 +13,7 @@ class SearchController extends Controller
         $q = explode(" ", $request->input('q'));
         $filter = $request->input('filter');
         $direction = $request->input('sort');
-        $videos = Video::select("videos.*", DB::raw("COUNT(video_likes.liked) as likes"), DB::raw("COUNT(video_views.amount) as views"))
+        $videos = Video::select("videos.*", DB::raw("SUM(video_likes.liked) as likes"), DB::raw("SUM(video_views.amount) as views"))
             ->leftJoin('video_likes', 'videos.id', '=', 'video_likes.video_id')
             ->leftJoin('video_views', 'videos.id', '=', 'video_views.video_id')
             ->groupBy("videos.id");
