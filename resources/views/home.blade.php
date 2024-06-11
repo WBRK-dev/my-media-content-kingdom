@@ -2,9 +2,6 @@
 
 @section('body')
     <main class="d-flex flex-column align-items-center gap-2 p-2">
-        <div class="ad-banner debugborder">
-            <p>This is a placeholder for an ad banner</p>
-        </div>
         <video-grid class="w-100">
             @foreach ($videos as $video)
                 <video-grid-item class="{{ $video->isFromYoutube() ? "youtube" : "" }}">
