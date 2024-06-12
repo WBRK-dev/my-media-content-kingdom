@@ -70,7 +70,7 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
             
             $videoDownloadCmd = "$ffmpegBin -i \"" . $this->videoData["video"] . "\" -c copy -bsf:a aac_adtstoasc \"" . $fullPath . DIRECTORY_SEPARATOR . "input-video.mp4\" 2>&1";
             $audioDownloadCmd = "$ffmpegBin -i \"" . $this->videoData["audio"] . "\" -c copy -bsf:a aac_adtstoasc \"" . $fullPath . DIRECTORY_SEPARATOR . "input-audio.mp4\" 2>&1";
-            $videoDownloadOutput = shell_exec("$videoDownloadCmd & $audioDownloadCmd");
+            $videoDownloadOutput = shell_exec("$videoDownloadCmd | $audioDownloadCmd");
             
             Storage::write($this->dirUuid . DIRECTORY_SEPARATOR . "video-download-output.txt", $videoDownloadOutput);
 
