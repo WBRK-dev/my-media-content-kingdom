@@ -29,6 +29,7 @@ video-grid-item.youtube img {object-fit: cover;}
 
 video-grid-item .info {
     padding: .5rem;
+    overflow-wrap: anywhere;
 }
 
 video-grid-item .info .title {
