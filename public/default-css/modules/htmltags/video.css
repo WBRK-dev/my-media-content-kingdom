@@ -8,20 +8,22 @@ video-grid-item {
     width: 100%;
     background-color: #282d31;
     border-radius: .5rem;
+    overflow: hidden;
 }
 
 video-grid-item a {
-    color: #000;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
     text-decoration: none;
+    background-color: #282d31;
 }
 
 video-grid-item img {
     display: block;
     width: 100%;
     aspect-ratio: 16/9;
-    border-radius: .5rem;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
     object-fit: contain;
     background-color: #474747;
 }
@@ -30,6 +32,10 @@ video-grid-item.youtube img {object-fit: cover;}
 video-grid-item .info {
     padding: .5rem;
     overflow-wrap: anywhere;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+    flex-grow: 1;
 }
 
 video-grid-item .info .title {
@@ -47,23 +53,9 @@ video-grid-item .img-wrapper .tag {
     right: .5rem;
 
     padding: .25rem .5rem;
-    background-color: #474747;
+    background-color: rgb(30, 30, 30, 0.8);
     border-radius: .5rem;
     color: #fff;
 
     box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-}
-
-.video-thumbnail {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.info {
-    color: white;
-    background-color: #282d31;
-    border-bottom-left-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    margin-left: 5px;
-    padding-bottom: 5px;
 }
