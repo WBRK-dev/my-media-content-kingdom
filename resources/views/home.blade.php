@@ -12,7 +12,7 @@
                         </div>
                         <div class="info">
                             <p class="title mb-2">{{ $video->title  }}</p>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between mt-auto">
                                 <div>
                                     <div>{{$video->owner->name}}</div>
                                     <div>
