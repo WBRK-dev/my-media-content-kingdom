@@ -18,11 +18,11 @@
 * {
     margin: 0;
     font-family: 'Inter', sans-serif;
+    color: var(--body-color);
 }
 
 body {
-
-    color: var(--body-color);
+    
 
     --body-bg: #343A40;
     --body-color: #fff;
