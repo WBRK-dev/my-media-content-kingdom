@@ -4,6 +4,7 @@
   background-color: #343A40;
   border: 1px solid #00b4d8;
   border-radius: 5px;
+  flex-shrink: 0;
 }
 
 .sidebar-item {
