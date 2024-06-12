@@ -34,6 +34,13 @@
                             </div>
                         </div>
                     </a>
+                    @permission('video-remove')
+                    <form method="post" action="{{ config('app.url') }}/delete/{{ $video->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button>Delete</button>
+                    </form>
+                    @endpermission
                 </video-grid-item>
             @endforeach
         </video-grid>
