@@ -68,10 +68,15 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
             $thumbnail->data = Storage::read($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp");
             $thumbnail->save();
             
-            shell_exec("$ffmpegBin -i \"" . $this->videoData["video"] . "\" -c copy -bsf:a aac_adtstoasc " . $fullPath . DIRECTORY_SEPARATOR . "input-video.mp4");
-            shell_exec("$ffmpegBin -i \"" . $this->videoData["audio"] . "\" -c copy -bsf:a aac_adtstoasc " . $fullPath . DIRECTORY_SEPARATOR . "input-audio.mp4");
+            $videoDownloadCmd = "$ffmpegBin -i \"" . $this->videoData["video"] . "\" -c copy -bsf:a aac_adtstoasc \"" . $fullPath . DIRECTORY_SEPARATOR . "input-video.mp4\" 2>&1";
+            $audioDownloadCmd = "$ffmpegBin -i \"" . $this->videoData["audio"] . "\" -c copy -bsf:a aac_adtstoasc \"" . $fullPath . DIRECTORY_SEPARATOR . "input-audio.mp4\" 2>&1";
+            $videoDownloadOutput = shell_exec("$videoDownloadCmd | $audioDownloadCmd");
             
-            shell_exec("$ffmpegBin -i $fullPath" . DIRECTORY_SEPARATOR . "input-video.mp4 -i \"$fullPath" . DIRECTORY_SEPARATOR . "input-audio.mp4\" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 \"" . $fullPath . DIRECTORY_SEPARATOR . "input.mp4\"");
+            Storage::write($this->dirUuid . DIRECTORY_SEPARATOR . "video-download-output.txt", $videoDownloadOutput);
+
+            $mergeVideoAudioOutput = shell_exec("$ffmpegBin -i \"$fullPath" . DIRECTORY_SEPARATOR . "input-video.mp4\" -i \"$fullPath" . DIRECTORY_SEPARATOR . "input-audio.mp4\" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 \"" . $fullPath . DIRECTORY_SEPARATOR . "input.mp4\" 2>&1");
+            
+            Storage::write($this->dirUuid . DIRECTORY_SEPARATOR . "merge-files-output.txt", $mergeVideoAudioOutput);
             
             try {
                 $output = shell_exec("$ffmpegBin -i " . $fullPath . DIRECTORY_SEPARATOR . "input.mp4 2>&1");
@@ -153,6 +158,6 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
         } catch (\Throwable $th) { Log::critical($th); }
 
         // Cleanup
-        Storage::deleteDirectory($this->dirUuid);
+        // Storage::deleteDirectory($this->dirUuid);
     }
 }
