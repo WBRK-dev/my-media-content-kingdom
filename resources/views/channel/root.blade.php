@@ -29,5 +29,6 @@
 @section("head")
     
     <link rel="stylesheet" href="{{config("app.url")}}/paged-css/channel/index.css">
+    @yield("channel-head")
 
 @endsection

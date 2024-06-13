@@ -53,6 +53,9 @@ class UserController extends Controller
                 ->leftJoin('video_views', 'videos.id', '=', 'video_views.video_id')
                 ->where("owner_id", $channel->id)
                 ->groupBy("id")->orderBy("views", "desc")->orderBy("created_at", "desc")->limit(10)->get();
+        } else if ($page === "videos") {
+            $data["videos"] = $channel->videos()->orderBy("created_at", "desc")->paginate(25);
+            $data["hasNextPage"] = $data["videos"]->hasMorePages();
         }
 
         return view("channel.$page", [
@@ -74,6 +77,43 @@ class UserController extends Controller
         if (!in_array($pictureType, $allowedTypes)) return abort(404);
 
         return $channel->getPicture($pictureType) ?? ( $pictureType === "banner" ? readfile(base_path() . "/public/banner.avif") : readfile(base_path() . "/public/profile.jpg") );
+    }
+
+    /**
+     * Show a list of videos from a user.
+     */
+    function showPaginatedVideos(Request $request) {
+        $channel = User::findOrFail($request->input("id"));
+        $videos = $channel->videos()->orderBy("created_at", "desc")->paginate(25);
+        $hasNextPage = $videos->hasMorePages();
+
+        $generatedVideos = "";
+        for ($i=0; $i < count($videos); $i++) { 
+            $generatedVideos .= '<video-grid-item class="' . ($videos[$i]->youtube_id ? "youtube" : "") . '">
+    <a href="/laravel/my-media-content-kingdom/public/watch?id=' . $videos[$i]->getId() . '">
+        <div class="img-wrapper">
+            <img src="/laravel/my-media-content-kingdom/public/api/thumbnail?id=' . $videos[$i]->thumbnail_id . '" class="video-thumbnail" style="width: 100%;">
+            <p class="tag">' . $videos[$i]->shortDuration() . '</p>
+        </div>
+        <div class="info">
+            <p class="title mb-2">' . $videos[$i]->title . '</p>
+            <div class="d-flex justify-content-between mt-auto">
+                <div>
+                    <div>' . $videos[$i]->owner->name . '</div>
+                    <div> ' . $videos[$i]->getViews() . ' ' . 
+                    ( $videos[$i]->getViews() === 1 ? "view" : "views" ) . 
+                    ' • ' . $videos[$i]->getTimeAgo() . ' ' . ( $videos[$i]->isNew() ? '<div class="new-badge">NEW</div>' : "" ) . '</div>
+                </div>
+            </div>
+        </div>
+    </a>
+</video-grid-item>';
+        }
+
+        return response()->json([
+            "videos" => $generatedVideos,
+            "hasNextPage" => $hasNextPage
+        ]);
     }
 
     /**

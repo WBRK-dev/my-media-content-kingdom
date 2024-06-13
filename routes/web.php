@@ -34,6 +34,7 @@ Route::get('/search', [SearchController::class, "search"]);
 // Channel
 Route::get("/channel/{channel}", [UserController::class, "show"]);
 Route::get("/api/channel/picture", [UserController::class, "showPicture"]);
+Route::get("/api/channel/videos", [UserController::class, "showPaginatedVideos"]);
 
 // Upload
 Route::get("/upload", [VideoController::class, "create"])->middleware("auth");
