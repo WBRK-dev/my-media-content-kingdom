@@ -62,7 +62,7 @@
                     "thumbnailId" => $video->thumbnail_id,
                     "channelName" => $video->owner->name,
                     "channelId" => $video->owner->id,
-                    "views" => $video->views,
+                    "views" => $video->getViews(),
                     "timeAgo" => $video->getTimeAgo(),
                     "isNew" => $video->isNew(),
                     "duration" => $video->shortDuration(),
