@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="shortcut icon" href="{{ config("app.url") }}/favicon.ico" type="image/x-icon">
     <script src="{{ config("app.url") }}/script-modules/layout-searchbar.js"></script>
+    <script src="{{ config("app.url") }}/script-modules/account-popup.js"></script>
     @vite(['resources/js/app.js'])
     @yield('head')
     <title>{{ config("app.name") }}</title>
