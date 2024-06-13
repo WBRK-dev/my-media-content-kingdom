@@ -40,7 +40,7 @@
 
     @if ($data["hasNextPage"])
         <div class="d-flex justify-content-center">
-            <button class="channel-load-videos" onclick="loadVideos(this)" data-page="2">Load Videos</button>
+            <button class="channel-load-videos" onclick="loadVideos(this)" data-page="2">Load More Videos</button>
         </div>
     @endif
 
