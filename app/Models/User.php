@@ -17,6 +17,8 @@ class User extends Authenticatable implements LaratrustUser
 
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $timestamps = false;
+
     public function videos(): HasMany {
         return $this->hasMany(Video::class, "owner_id", "id");
     }
