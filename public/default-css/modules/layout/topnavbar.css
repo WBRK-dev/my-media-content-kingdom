@@ -124,6 +124,7 @@ a.login:hover, a.logout:hover, a.upload:hover {
 
     height: 32px;
     aspect-ratio: 1;
+    border-radius: 50%;
 
     overflow: hidden;
     cursor: pointer;
