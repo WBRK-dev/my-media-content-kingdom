@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
 @import url("./bootstrap-utilities.min.css");
+@import url("./flaticon.css");
 
 @import url("./modules/home/index.css");
 @import url("./modules/home/videos-grid.css");
