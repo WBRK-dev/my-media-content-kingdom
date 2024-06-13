@@ -23,7 +23,7 @@
 @endsection
 
 @section('body')
-    <main class="d-flex flex-column gap-2 p-2">
+    <main class="d-flex flex-column gap-2 p-2 pt-0">
 
         <div class="p-2" style="background-color: var(--body-secondary-bg); border-radius: 1rem;">
             <form>
