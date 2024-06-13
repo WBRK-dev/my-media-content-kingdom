@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserPicture;
 use Illuminate\Http\Request;
 
 use App\Models\Video;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -39,10 +41,12 @@ class UserController extends Controller
      */
     public function show(Request $request, User $channel)
     {
+        $isChannelOwner = Auth::check() && Auth::user()->id === $channel->id;
         $data = [];
-        $allowedPages = ["home", "videos"];
+        $allowedPages = ["home", "videos", "settings"];
         $page = $request->input("page") ?? "home";
-        if (in_array($page, $allowedPages) === false) return abort(404);
+        if (!in_array($page, $allowedPages)) return abort(404);
+        if ($page === "settings" && !$isChannelOwner) return abort(403);
 
         if ($page === "home") {
             $data["most_liked"] = Video::select("videos.*", DB::raw("SUM(video_likes.liked) as likes"))
@@ -61,7 +65,8 @@ class UserController extends Controller
         return view("channel.$page", [
             'channel' => $channel,
             'page' => $page,
-            "data" => $data
+            "data" => $data,
+            "isChannelOwner" => $isChannelOwner
         ]);
     }
 
@@ -76,7 +81,7 @@ class UserController extends Controller
         $pictureType = $request->input("type") ?? "banner";
         if (!in_array($pictureType, $allowedTypes)) return abort(404);
 
-        return $channel->getPicture($pictureType) ?? ( $pictureType === "banner" ? readfile(base_path() . "/public/banner.avif") : readfile(base_path() . "/public/profile.jpg") );
+        return $channel->getPicture($pictureType)->first()?->data ?? ( $pictureType === "banner" ? readfile(base_path() . "/public/banner.avif") : readfile(base_path() . "/public/profile.jpg") );
     }
 
     /**
@@ -127,9 +132,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $channel)
     {
-        //
+        $allowedTypes = ["name", "banner", "profile"];
+        $type = $request->input("type");
+        if (!in_array($type, $allowedTypes)) return abort(404);
+
+        if ($type === "name") {
+            $channel->name = $request->input("name");
+            $channel->save();
+        } else {
+            $picture = $channel->getPicture($type)->first();
+            if ($picture === null) $picture = new UserPicture();
+
+            $picture->user_id = $channel->id;
+            $picture->type = $type;
+            $picture->data = $request->file("image")->get();
+            $picture->save();
+        }
+
+        return back();
     }
 
     /**

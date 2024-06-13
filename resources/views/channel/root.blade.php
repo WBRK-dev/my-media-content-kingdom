@@ -18,6 +18,11 @@
         <div class="section-rail">
             <a href="{{config("app.url")}}/channel/{{$channel->id}}" class="rail-button {{ $page === "home" ? "active": "" }}">Home</a>
             <a href="{{config("app.url")}}/channel/{{$channel->id}}?page=videos" class="rail-button {{ $page === "videos" ? "active": "" }}">Videos</a>
+
+            @if ($isChannelOwner)
+                <a href="{{config("app.url")}}/channel/{{$channel->id}}?page=settings" class="rail-button {{ $page === "settings" ? "active": "" }}">Settings</a>
+            @endif
+
         </div>
 
         @yield("channel-content")
