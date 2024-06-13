@@ -108,7 +108,7 @@
                                 <div>
                                     <div>{{$video->owner->name}}</div>
                                     <div>
-                                        {{$video->views}}
+                                        {{$video->views ?? 0}}
     
                                         @if ($video->views == 1)
                                             view
