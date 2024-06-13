@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RolePermUnassign extends Command
 {
@@ -36,7 +37,9 @@ class RolePermUnassign extends Command
         if ($this->option("role") === null && $this->option("permission") === null) { $this->error("Define one of the following: --role, --permission"); return; }
         if ($this->option("role") !== null && $this->option("permission") !== null) { $this->error("Only define one of the following: --role, --permission"); return; }
         
-        $this->line("Getting user...");
+        $verbose = $this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+
+        if ($verbose) $this->line("Getting user...");
 
         $user = null;
         try {
@@ -47,7 +50,7 @@ class RolePermUnassign extends Command
         }
 
         if ($this->option("role") !== null) {
-            $this->line("Getting role...");
+            if ($verbose) $this->line("Getting role...");
             $role = Role::where("name", $this->option("role"))->first();
             if ($role === null) {
                 $this->error("Role not found");
@@ -57,7 +60,7 @@ class RolePermUnassign extends Command
             $user->removeRole($role);
             $this->line("Removed role " . $role->display_name . " from " . $user->name);
         } else {
-            $this->line("Getting permission...");
+            if ($verbose) $this->line("Getting permission...");
             $perm = Permission::where("name", $this->option("permission"))->first();
             if ($perm === null) {
                 $this->error("Permission not found");
