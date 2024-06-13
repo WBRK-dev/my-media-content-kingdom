@@ -5,35 +5,33 @@
         <video-grid class="w-100">
             @foreach ($videos as $video)
                 <video-grid-item class="{{ $video->isFromYoutube() ? "youtube" : "" }}">
-                    <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
-                        <div class="img-wrapper">
-                            <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" class="video-thumbnail" style="width: 100%;">
-                            <p class="tag">{{ $video->shortDuration() }}</p>
-                        </div>
-                        <div class="info">
-                            <p class="title mb-2">{{ $video->title  }}</p>
-                            <div class="d-flex justify-content-between mt-auto">
+                    <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}" class="img-wrapper">
+                        <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" class="video-thumbnail" style="width: 100%;">
+                        <p class="tag">{{ $video->shortDuration() }}</p>
+                    </a>
+                    <div class="info">
+                        <a class="title mb-2" href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">{{ $video->title  }}</a>
+                        <div class="d-flex justify-content-between mt-auto">
+                            <div>
+                                <a href="{{config("app.url")}}/channel/{{$video->owner->id}}">{{$video->owner->name}}</a>
                                 <div>
-                                    <div>{{$video->owner->name}}</div>
-                                    <div>
-                                        {{$video->getViews()}}
-    
-                                        @if ($video->getViews() == 1)
-                                            view
-                                        @else
-                                            views 
-                                        @endif
-    
-                                        &#x2022; {{$video->getTimeAgo()}}
-                                        
-                                        @if ($video->isNew())
-                                            <div class="new-badge">NEW</div>
-                                        @endif
-                                    </div>
+                                    {{$video->getViews()}}
+
+                                    @if ($video->getViews() == 1)
+                                        view
+                                    @else
+                                        views 
+                                    @endif
+
+                                    &#x2022; {{$video->getTimeAgo()}}
+                                    
+                                    @if ($video->isNew())
+                                        <div class="new-badge">NEW</div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </video-grid-item>
             @endforeach
         </video-grid>
