@@ -1,0 +1,36 @@
+.channel-head {
+    background-color: var(--body-secondary-bg);
+    border-radius: .5rem;
+
+    overflow: hidden;
+}
+
+.channel-head .head-img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.channel-head .channel-info {
+    display: flex; gap: 1rem;
+    align-items: center;
+
+    padding: 1rem;
+}
+
+.channel-head .channel-info img.channel-pp {
+    display: block;
+    height: 96px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.channel-head .channel-info .channel-name {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.channel-head .channel-info .channel-desc {
+    color: var(--body-secondary-color);
+}
