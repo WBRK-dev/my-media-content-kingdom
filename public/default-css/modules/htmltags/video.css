@@ -13,7 +13,9 @@ video-grid.single-row {
 }
 
 video-grid-item {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    
     width: 100%;
     background-color: #282d31;
     border-radius: .5rem;
