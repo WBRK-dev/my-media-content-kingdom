@@ -86,4 +86,26 @@ class Video extends Model
     public function isFromYoutube() {
         return $this->youtube_id !== null;
     }
+
+    public function html() {
+        return '<video-grid-item class="' . ($this->youtube_id ? "youtube" : "") . '">
+        <a href="/laravel/my-media-content-kingdom/public/watch?id=' . $this->getId() . '">
+            <div class="img-wrapper">
+                <img src="/laravel/my-media-content-kingdom/public/api/thumbnail?id=' . $this->thumbnail_id . '" class="video-thumbnail" style="width: 100%;">
+                <p class="tag">' . $this->shortDuration() . '</p>
+            </div>
+            <div class="info">
+                <p class="title mb-2">' . $this->title . '</p>
+                <div class="d-flex justify-content-between mt-auto">
+                    <div>
+                        <div>' . $this->owner->name . '</div>
+                        <div> ' . $this->getViews() . ' ' . 
+                        ( $this->getViews() === 1 ? "view" : "views" ) . 
+                        ' • ' . $this->getTimeAgo() . ' ' . ( $this->isNew() ? '<div class="new-badge">NEW</div>' : "" ) . '</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </video-grid-item>';
+    }
 }

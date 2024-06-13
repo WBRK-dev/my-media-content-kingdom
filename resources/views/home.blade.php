@@ -18,5 +18,32 @@
                 ])
             @endforeach
         </video-grid>
+
+        @if ($videos->hasMorePages())
+            <div class="d-flex justify-content-center">
+                <button class="load-more" onclick="loadVideos(this)" data-page="2">Load More</button>
+            </div>
+        @endif
+
     </main>
+@endsection
+
+@section("head")
+    
+    <script>
+
+        async function loadVideos(btn) {
+            const response = await (await fetch("{{config('app.url')}}/api/home/videos?page=" + btn.getAttribute("data-page"))).json();
+            
+            if (response.hasNextPage) {
+                btn.setAttribute("data-page", parseInt(btn.getAttribute("data-page")) + 1);
+            } else {
+                btn.parentNode.classList.add("d-none");
+            }
+            
+            document.querySelector("video-grid").innerHTML += response.videos;
+        }
+
+    </script>
+
 @endsection

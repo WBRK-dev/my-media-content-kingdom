@@ -1,18 +1,2 @@
 @import url("head.css");
 @import url("section-rail.css");
-
-.channel-load-videos {
-    background-color: transparent;
-    border: none;
-    border-radius: .5rem;
-    padding: .5rem 1rem;
-
-    font-size: 18px;
-
-    cursor: pointer;
-    transition: background-color 200ms;
-}
-
-.channel-load-videos:hover {
-    background-color: #ffffff34;
-}

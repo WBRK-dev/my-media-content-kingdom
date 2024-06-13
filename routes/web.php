@@ -27,6 +27,7 @@ require __DIR__.'/auth.php';
 
 // Home
 Route::get("/", [HomeController::class, "show"])->name("home");
+Route::get("/api/home/videos", [HomeController::class, "showPaginatedVideos"]);
 
 // Search
 Route::get('/search', [SearchController::class, "search"]);
