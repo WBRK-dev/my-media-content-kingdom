@@ -1,7 +1,7 @@
 @extends('layout.root')
 
 @section('body')
-    <main class="d-flex flex-column align-items-center gap-2 p-2">
+    <main class="d-flex flex-column align-items-center gap-2 p-2 pt-0">
         <video-grid class="w-100">
             @foreach ($videos as $video)
                 @include('modules.video', [
