@@ -57,6 +57,16 @@
                                 <div>
                                     <div>{{$video->owner->name}}</div>
                                     <div>
+                                        {{$video->likes ?? 0}}
+    
+                                        @if ($video->likes == 1)
+                                            like
+                                        @else
+                                            likes 
+                                        @endif
+    
+                                        &#x2022; 
+
                                         {{$video->getViews()}}
     
                                         @if ($video->getViews() == 1)
@@ -64,8 +74,10 @@
                                         @else
                                             views 
                                         @endif
-    
-                                        &#x2022; {{$video->getTimeAgo()}}
+                                        
+                                        &#x2022; 
+
+                                        {{$video->getTimeAgo()}}
                                         
                                         @if ($video->isNew())
                                             <div class="new-badge">NEW</div>
@@ -96,9 +108,9 @@
                                 <div>
                                     <div>{{$video->owner->name}}</div>
                                     <div>
-                                        {{$video->getViews()}}
+                                        {{$video->views}}
     
-                                        @if ($video->getViews() == 1)
+                                        @if ($video->views == 1)
                                             view
                                         @else
                                             views 
