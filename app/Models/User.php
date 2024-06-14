@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Contracts\LaratrustUser;
@@ -15,6 +17,16 @@ class User extends Authenticatable implements LaratrustUser
     use HasRolesAndPermissions;
 
     use HasApiTokens, HasFactory, Notifiable;
+
+    public $timestamps = false;
+
+    public function videos(): HasMany {
+        return $this->hasMany(Video::class, "owner_id", "id");
+    }
+
+    public function getPicture($type): HasOne {
+        return $type === "banner" ? $this->hasOne(UserPicture::class, "user_id", "id")->where("type", "banner") : $this->hasOne(UserPicture::class, "user_id", "id")->where("type", "profile");
+    }
 
     /**
      * The attributes that are mass assignable.

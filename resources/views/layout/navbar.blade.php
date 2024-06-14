@@ -15,9 +15,30 @@
     
 
     @if (Auth::check())
-        <div class="d-flex gap-2">
-            <a href="{{ config("app.url") }}/upload" class="upload">Upload</a>
-            <form action="{{ config("app.url") }}/logout" class="logout" method="post">@csrf<button>Logout</button></form>
+        <div class="d-flex gap-2 align-items-center pe-2">
+            <a href="{{config("app.url")}}/upload" class="icon-button"><i class="fi fi-sr-plus"></i></a>
+            
+            <?php $accountDropdownUser = auth()->user(); ?>
+            <div class="account-dropdown-wrapper">
+                <button onclick="toggleAccountPopup()"><img src="{{config("app.url")}}/api/channel/picture?id={{$accountDropdownUser->id}}&type=profile"></button>
+
+                <div class="account-dropdown">
+                    <div class="img-wrapper">
+                        <img src="{{config("app.url")}}/api/channel/picture?id={{$accountDropdownUser->id}}&type=banner" class="banner">
+                        <img src="{{config("app.url")}}/api/channel/picture?id={{$accountDropdownUser->id}}&type=profile" class="profile">
+                    </div>
+                    <p class="channel-name">{{$accountDropdownUser->name}}</p>
+                    <div class="item-list">
+                        <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}" class="list-item"> <i class="fi fi-sr-user"></i> Channel</a>
+                        <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}?page=videos" class="list-item"> <i class="fi fi-sr-film"></i> Your Videos</a>
+                        <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}?page=settings" class="list-item"> <i class="fi fi-sr-settings"></i> Settings</a>
+                        {{-- <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}?page=settings" class="list-item danger-list-item">Sign out</a> --}}
+                        <form action="{{config("app.url")}}/logout" method="post">@csrf <button class="list-item w-100"> <i class="fi fi-sr-exit"></i> Sign out</button> </form>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     @else
         <a href="{{ config("app.url") }}/login" class="login">Login</a>

@@ -1,0 +1,21 @@
+.channel-settings-button {
+    border: 1px solid #0000ff;
+    border-radius: .5rem;
+    background-color: #0000ff;
+    padding: .25rem .5rem;
+
+    cursor: pointer;
+    transition: background-color 200ms;
+}
+.channel-settings-button:hover {
+    background-color: #0000df;
+}
+
+.channel-settings-input-text {
+    border: 1px solid #fff;
+    border-radius: .5rem;
+    background-color: transparent;
+
+    padding: .25rem .5rem;
+    outline: none;
+}

@@ -9,6 +9,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ThumbnailController;
+use App\Http\Controllers\UserController;
 use App\Models\Video;
 
 /*
@@ -24,16 +25,25 @@ use App\Models\Video;
 
 require __DIR__.'/auth.php';
 
+// Home
 Route::get("/", [HomeController::class, "show"])->name("home");
+Route::get("/api/home/videos", [HomeController::class, "showPaginatedVideos"]);
 
+// Search
 Route::get('/search', [SearchController::class, "search"]);
 
+// Channel
+Route::get("/channel/{channel}", [UserController::class, "show"]);
+Route::get("/api/channel/picture", [UserController::class, "showPicture"]);
+Route::get("/api/channel/videos", [UserController::class, "showPaginatedVideos"]);
+Route::put("/channel/{channel}", [UserController::class, "update"])->middleware("auth");
+
+// Upload
 Route::get("/upload", [VideoController::class, "create"])->middleware("auth");
 Route::post("/upload", [VideoController::class, "store"])->middleware("auth");
 Route::post("/upload-youtube", [VideoController::class, "storeFromYoutube"])->middleware("auth");
 
-Route::delete("/delete/{video}", [VideoController::class, "destroy"]);
-
+// Watch
 Route::get("/watch", [WatchController::class, "show"]);
 
 Route::get("/watch/{videoid}/{resolution}/{filename}", [VideoController::class, "show"]);
@@ -43,11 +53,12 @@ Route::get("/api/watch/disliked", [WatchController::class, "videoDisliked"]);
 Route::get("/api/watch/like_rem_row", [WatchController::class, "deleteLikeRow"]);
 Route::post("/api/watch/report_video", [WatchController::class, "videoReported"]);
 
+// Admin
 Route::get("/reported-videos", [ReportedVideosController::class, "show"]);
 
+// Account
 Route::view("/login", "account.login")->middleware("nonauth");
 Route::view("/register", "account.register")->middleware("nonauth");
 
+// API
 Route::get("/api/thumbnail", [ThumbnailController::class, "show"]);
-
-Route::get("/test", [VideoController::class, "test"]);

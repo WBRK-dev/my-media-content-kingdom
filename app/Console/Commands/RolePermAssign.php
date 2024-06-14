@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RolePermAssign extends Command
 {
@@ -34,9 +35,11 @@ class RolePermAssign extends Command
     {
         if ($this->option("user") === null) { $this->error("User ID is required"); return; }
         if ($this->option("role") === null && $this->option("permission") === null) { $this->error("Define one of the following: --role, --permission"); return; }
-        if ($this->option("role") !== null && $this->option("permission") !== null) { $this->error("Only define one of the following: --role, --permission"); return; }
-        
-        $this->line("Getting user...");
+        if ($this->option("role") !== null && $this->option("permission") !== null) { $this->error("Define one of the following: --role, --permission"); return; }
+
+        $verbose = $this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+
+        if ($verbose) $this->line("Getting user...");
 
         $user = null;
         try {
@@ -47,24 +50,34 @@ class RolePermAssign extends Command
         }
 
         if ($this->option("role") !== null) {
-            $this->line("Getting role...");
+            if ($verbose) $this->line("Getting role...");
             $role = Role::where("name", $this->option("role"))->first();
             if ($role === null) {
                 $this->error("Role not found");
                 return;
             }
 
-            $user->addRole($role);
+            try {
+                $user->addRole($role);
+            } catch (\Throwable $th) {
+                $this->error("Role " . $role->display_name . " already assigned to " . $user->name);
+                return;
+            }
             $this->line("Gave role " . $role->display_name . " to " . $user->name);
         } else {
-            $this->line("Getting permission...");
+            if ($verbose) $this->line("Getting permission...");
             $perm = Permission::where("name", $this->option("permission"))->first();
             if ($perm === null) {
                 $this->error("Permission not found");
                 return;
             }
 
-            $user->givePermission($perm);
+            try {
+                $user->givePermission($perm);
+            } catch (\Throwable $th) {
+                $this->error("Role " . $perm->display_name . " already assigned to " . $user->name);
+                return;
+            }
             $this->line("Gave permission " . $perm->display_name . " to " . $user->name);
         }
     }

@@ -22,7 +22,8 @@ return new class extends Migration
             $table->boolean("processed")->default(false);
             $table->boolean("terminated")->default(0);
             $table->timestamp('terminated_at')->nullable(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
