@@ -1,83 +1,121 @@
 @extends('layout.root')
 
+@section('title', $video->title.' - ')
+
 @section('body')
     
-    <div style="display: flex; justify-content: center;"><div style="width: min(100%, 1000px);">
+    <div class="d-flex gap-2">
 
-        <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
+        <div style="display: flex; justify-content: center; flex-grow: 1;"><div style="width: min(100%, 1000px);">
     
-        <select onchange="updateResolution(this)" style="display: block;"></select>
-
-        <div class="watch-info">
-
-            <div>{{$video->title}}</div>
-
-            @if (date('d-m-Y') == $video->created_at->format('d-m-Y'))
-                Today
-            @else
-                <div>{{$video->created_at->format('F, j Y')}}</div>
-            @endif
-
-        </div>
-
-        <div class="watch-info">
-
-            @if ($video->getViews() == 1)
-                <div>{{$video->getViews()}} view</div>
-            @else
-                <div>{{$video->getViews()}} views</div>
-            @endif
-
-            <div>{{$video->owner->name}}</div>
-
-        </div>
-        @auth
-            <div class="d-flex gap-2">
-                <div class="d-flex gap-1">
-                    <label for="chkbLike" id="lbLike">Likes:</label>
-                    <div id="likeAmount">{{$video->getLikes()}}</div>
-                    @if ($likestatus == 1)
-                        <input type="checkbox" id="chkbLike" checked>
-                    @else
-                        <input type="checkbox" id="chkbLike">
-                    @endif
-                </div>
-                <div class="d-flex gap-1">
-                    <label for="chkbDislike">Dislikes:</label>
-                    <div id="dislikeAmount">{{$video->getDislikes()}}</div>
-                    @if ($likestatus === 0)
-                        <input type="checkbox" id="chkbDislike" checked>                   
-                    @else
-                        <input type="checkbox" id="chkbDislike">
-                    @endif
-                </div>
+            <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
+        
+            <select onchange="updateResolution(this)" style="display: block;"></select>
+    
+            <div class="watch-info">
+    
+                <div>{{$video->title}}</div>
+    
+                @if (date('d-m-Y') == $video->created_at->format('d-m-Y'))
+                    Today
+                @else
+                    <div>{{$video->created_at->format('F, j Y')}}</div>
+                @endif
+    
             </div>
-            <div>
-                <button id="openFormBtn">Report video</button>
+    
+            <div class="watch-info">
+    
+                @if ($video->getViews() == 1)
+                    <div>{{$video->getViews()}} view</div>
+                @else
+                    <div>{{$video->getViews()}} views</div>
+                @endif
+    
+                <div>{{$video->owner->name}}</div>
+    
             </div>
-            <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
-                <div class="card-header">Report video</div>
-                <div class="card-content d-flex flex-column my-3">
-                    <form>
-                        @csrf
-                        @foreach (config('app.report_reasons') as $reason)
-                            <div class="my-2">
-                                <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
-                                <label for="reason{{$loop->index}}">{{$reason}}</label>
+            @auth
+                <div class="d-flex gap-2">
+                    <div class="d-flex gap-1">
+                        <label for="chkbLike" id="lbLike">Likes:</label>
+                        <div id="likeAmount">{{$video->getLikes()}}</div>
+                        @if ($likestatus == 1)
+                            <input type="checkbox" id="chkbLike" checked>
+                        @else
+                            <input type="checkbox" id="chkbLike">
+                        @endif
+                    </div>
+                    <div class="d-flex gap-1">
+                        <label for="chkbDislike">Dislikes:</label>
+                        <div id="dislikeAmount">{{$video->getDislikes()}}</div>
+                        @if ($likestatus === 0)
+                            <input type="checkbox" id="chkbDislike" checked>                   
+                        @else
+                            <input type="checkbox" id="chkbDislike">
+                        @endif
+                    </div>
+                </div>
+                <div>
+                    <button id="openFormBtn">Report video</button>
+                </div>
+                <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
+                    <div class="card-header">Report video</div>
+                    <div class="card-content d-flex flex-column my-3">
+                        <form>
+                            @csrf
+                            @foreach (config('app.report_reasons') as $reason)
+                                <div class="my-2">
+                                    <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
+                                    <label for="reason{{$loop->index}}">{{$reason}}</label>
+                                </div>
+                            @endforeach
+                        </form>
+                    </div>
+                    <div class="card-footer d-flex">
+                        <button id="formBtn" type="button">Submit</button>
+                        <button id="closeFormBtn">X</button>
+                    </div>
+                </div>
+            @endauth
+            
+            
+    
+        </div></div>
+
+        <div style="width: 450px;" class="d-flex flex-column gap-2">
+            @foreach ($videos as $item)
+                @if ($item->id == $video->id) @continue @endif
+                <video-watch-item class="{{ $item->isFromYoutube() ? "youtube" : "" }}">
+                    <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="img-wrapper">
+                        <img src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
+                        <p class="tag">{{ $item->longDuration() }}</p>
+                    </a>
+                    <div class="details">
+                        <div>
+                            <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="watch-item-title">{{ $item->title }}</a>
+                            <div class="watch-item-info">
+                                <a href="{{ config('app.url')}}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
+                                <a href="{{ config('app.url')}}/watch?id={{ $item->getId() }}" class="d-flex">
+                                    @if ($item->getViews() == 1)
+                                        {{$item->getViews()}} view
+                                    @else
+                                        {{$item->getViews()}} views
+                                    @endif
+
+                                    &#x2022;
+                                    
+                                    {{ $item->getTimeAgo() }}
+                                </a>
                             </div>
-                        @endforeach
-                    </form>
-                </div>
-                <div class="card-footer d-flex">
-                    <button id="formBtn" type="button">Submit</button>
-                    <button id="closeFormBtn">X</button>
-                </div>
-            </div>
-        @endauth
-        
-        
+                        </div>
+                    </div>
+                </video-watch-item>  
+            @endforeach
+        </div>
 
-    </div></div>
+    </div>
+
 
 
 @endsection

@@ -82,6 +82,21 @@ class Video extends Model
             return "0s";
         }
     }
+    
+
+    public function longDuration() {
+        $duration = $this->length;
+        $hours = floor($duration / 3600);
+        $minutes = floor(($duration - ($hours * 3600)) / 60);
+        $seconds = $duration - ($hours * 3600) - ($minutes * 60);
+        if ($hours > 0) {
+            return $hours . ":" . $minutes . ":" . $seconds;
+        } else if ($seconds > 0) {
+            return $minutes . ":" . $seconds;
+        } else {
+            return "00:00";
+        }
+    }
 
     public function isFromYoutube() {
         return $this->youtube_id !== null;
