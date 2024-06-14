@@ -15,18 +15,22 @@ class ReportedVideosController extends Controller
         ]);
     }
 
-    public function terminateVideo(Request $request) {
+    public function handleReport(Request $request) {
         $video = Video::findOrFail(VideoController::alphaID($request->input("id"), true));
-        // if ($video->count()) {
-        //     $video[0]->terminated = 1;
-        //     $video[0]->terminated_at = now();
-        // }
-        $video->terminated = 1;
-        $video->terminated_at = now();
-        $video->save();
-    }
+        $report = VideoReport::where('video_id', $video->id);
+        
+        $action = $request->input('action');
 
-    public function deleteReport(Request $request) {
-        $video = Video::findOrFail(VideoController::alphaID($request->input("id"), true));
+        if ($action == "accept") {
+            $video->terminated = 1;
+            $video->terminated_at = now();
+            $video->save();
+            
+            $report->delete();
+        } elseif ($action == "deny") {
+            $report->delete();
+        }
+
+        return redirect()->back();
     }
 }

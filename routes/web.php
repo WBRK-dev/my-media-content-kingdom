@@ -55,6 +55,7 @@ Route::post("/api/watch/report_video", [WatchController::class, "videoReported"]
 
 // Admin
 Route::get("/reported-videos", [ReportedVideosController::class, "show"]);
+Route::post("/reported-videos/handleReport", [ReportedVideosController::class, "handleReport"]);
 
 // Account
 Route::view("/login", "account.login")->middleware("nonauth");
