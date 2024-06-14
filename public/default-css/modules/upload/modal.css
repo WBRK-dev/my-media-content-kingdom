@@ -1,0 +1,131 @@
+.upload-popup-wrapper {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 100;
+    width: 100%; height: 100%;
+
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms;
+}
+.upload-popup-wrapper.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.upload-popup-wrapper .upload-popup {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    
+    width: min(800px, calc(100% - 2rem));
+    height: min(600px, calc(100% - 2rem));
+
+    border-radius: 1rem;
+    background-color: var(--body-bg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    
+    overflow: hidden;
+    transition: transform 200ms;
+}
+.upload-popup-wrapper.show .upload-popup {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.upload-popup-wrapper .upload-popup .upload-popup-header {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1rem;
+    border-bottom: 1px solid var(--body-border);
+}
+.upload-popup-wrapper .upload-popup .upload-popup-header p {
+    font-size: 20px;
+    font-weight: 700;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-header button {
+    all: unset;
+
+    cursor: pointer;
+}
+
+.upload-popup-wrapper .upload-popup .upload-popup-pages {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-pages .upload-popup-page {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 0; left: 0%;
+    width: 100%; height: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    z-index: 0;
+
+    background-color: var(--body-bg);
+
+    isolation: isolate;
+    transition: left 500ms;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-pages .upload-popup-page.upload-popup-page-active {
+    z-index: 2;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-pages .upload-popup-page.upload-popup-page-prev {
+    left: -100%;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-pages .upload-popup-page.upload-popup-page-next {
+    left: 100%;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-pages .upload-popup-page.upload-popup-page-ontop {
+    z-index: 2;
+}
+
+
+
+.upload-popup-wrapper .upload-popup .upload-popup-button {
+    all: unset;
+
+    display: flex; gap: .5rem;
+    justify-content: center;
+    align-items: center;
+
+    padding: .5rem 1rem;
+
+    background-color: #0000ff;
+    border-radius: .5rem;
+
+    user-select: none;
+    cursor: pointer;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-button:hover {
+    background-color: #0000ec;
+}
+
+.upload-popup-wrapper .upload-popup .upload-popup-button.upload-popup-button-secondary {
+    background-color: #777777;
+}
+.upload-popup-wrapper .upload-popup .upload-popup-button.upload-popup-button-secondary:hover {
+    background-color: #6d6d6d;
+}
+
+
+.upload-popup-wrapper .upload-popup input.upload-popup-input {
+    all: unset;
+
+    padding: .5rem;
+    border-radius: .5rem;
+    border: 1px solid var(--body-border);
+
+    width: 100%;
+    box-sizing: border-box;
+}
