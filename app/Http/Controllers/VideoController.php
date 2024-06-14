@@ -153,9 +153,9 @@ class VideoController extends Controller
         } catch (\Throwable $th) { Log::error("Something went wrong while getting video, audio and thumbnail from youtube."); Log::critical($th); }
 
         if ($videoFormat === null || $audioFormat === null || $thumbnail === null) { 
-            Log::error("A video or audio format could not be found."); 
+            Log::error("A video or audio format could not be found. Logs can be found in \"$uuid\""); 
             Storage::write($uuid . DIRECTORY_SEPARATOR . "youtube-api-response.json", $data->body());
-            return;
+            return abort(500);
         }
 
         TransformVideoFromYoutubeProcess::dispatchAfterResponse($uuid, [
