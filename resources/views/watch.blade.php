@@ -91,23 +91,21 @@
                         <img src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
                         <p class="tag">{{ $item->longDuration() }}</p>
                     </a>
-                    <div class="details">
-                        <div>
-                            <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="watch-item-title">{{ $item->title }}</a>
-                            <div class="watch-item-info">
-                                <a href="{{ config('app.url')}}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
-                                <a href="{{ config('app.url')}}/watch?id={{ $item->getId() }}" class="d-flex">
-                                    @if ($item->getViews() == 1)
-                                        {{$item->getViews()}} view
-                                    @else
-                                        {{$item->getViews()}} views
-                                    @endif
+                    <div>
+                        <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="watch-item-title">{{ $item->title }}</a>
+                        <div class="watch-item-info">
+                            <a href="{{ config('app.url')}}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
+                            <a href="{{ config('app.url')}}/watch?id={{ $item->getId() }}" class="d-flex">
+                                @if ($item->getViews() == 1)
+                                    {{$item->getViews()}} view
+                                @else
+                                    {{$item->getViews()}} views
+                                @endif
 
-                                    &#x2022;
-                                    
-                                    {{ $item->getTimeAgo() }}
-                                </a>
-                            </div>
+                                &#x2022;
+                                
+                                {{ $item->getTimeAgo() }}
+                            </a>
                         </div>
                     </div>
                 </video-watch-item>  

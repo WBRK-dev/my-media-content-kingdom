@@ -97,11 +97,6 @@ video-watch-item img {
     object-fit: contain;
 }
 
-video-watch-item .details {
-    display: grid;
-    grid-template-columns: 10fr 1fr;
-}
-
 video-watch-item .watch-item-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
