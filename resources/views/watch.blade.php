@@ -91,11 +91,11 @@
                         <img src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
                         <p class="tag">{{ $item->longDuration() }}</p>
                     </a>
-                    <div>
-                        <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="watch-item-title">{{ $item->title }}</a>
-                        <div class="watch-item-info">
-                            <a href="{{ config('app.url')}}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
-                            <a href="{{ config('app.url')}}/watch?id={{ $item->getId() }}" class="d-flex">
+                    <div class="content-wrapper">
+                        <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="title">{{ $item->title }}</a>
+                        <div class="info">
+                            <a href="{{ config('app.url') }}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
+                            <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="d-flex">
                                 @if ($item->getViews() == 1)
                                     {{$item->getViews()}} view
                                 @else
@@ -107,6 +107,7 @@
                                 {{ $item->getTimeAgo() }}
                             </a>
                         </div>
+                        <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="new-tag">NEW</a>
                     </div>
                 </video-watch-item>  
             @endforeach
