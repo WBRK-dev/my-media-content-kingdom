@@ -68,6 +68,9 @@ class Video extends Model
     }
 
     public function shortDuration() {
+        
+        if (!$this->processed) return "PROCESSING";
+
         $duration = $this->length;
         $hours = floor($duration / 3600);
         $minutes = floor(($duration - ($hours * 3600)) / 60);

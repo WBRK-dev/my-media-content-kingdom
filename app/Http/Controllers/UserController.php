@@ -49,23 +49,30 @@ class UserController extends Controller
         if ($page === "settings" && !$isChannelOwner) return abort(403);
 
         if ($page === "home") {
+
+            $data["recently"] = $channel->videos()->where("terminated", false);
+            if (!$isChannelOwner) $data["recently"] = $data["recently"]->where("public", true)->where("processed", true)->orderBy("created_at", "desc")->limit(10)->get();
+            else $data["recently"] = $data["recently"]->orderBy("created_at", "desc")->limit(10)->get();
+
             $data["most_liked"] = Video::select("videos.*", DB::raw("SUM(video_likes.liked) as likes"))
                 ->leftJoin('video_likes', 'videos.id', '=', 'video_likes.video_id')
                 ->where("owner_id", $channel->id)
-                ->where("processed", true)->where("terminated", false)
+                ->where("terminated", false)
                 ->groupBy("id")->orderBy("likes", "desc")->orderBy("created_at", "desc")->limit(10);
-                if (!$isChannelOwner) $data["most_liked"] = $data["most_liked"]->where("public", true)->get();
+                if (!$isChannelOwner) $data["most_liked"] = $data["most_liked"]->where("public", true)->where("processed", true)->get();
                 else $data["most_liked"] = $data["most_liked"]->get();
+
             $data["most_viewed"] = Video::select("videos.*", DB::raw("SUM(video_views.amount) as views"))
                 ->leftJoin('video_views', 'videos.id', '=', 'video_views.video_id')
                 ->where("owner_id", $channel->id)
-                ->where("processed", true)->where("terminated", false)
+                ->where("terminated", false)
                 ->groupBy("id")->orderBy("views", "desc")->orderBy("created_at", "desc")->limit(10);
-                if (!$isChannelOwner) $data["most_viewed"] = $data["most_viewed"]->where("public", true)->get();
+                if (!$isChannelOwner) $data["most_viewed"] = $data["most_viewed"]->where("public", true)->where("processed", true)->get();
                 else $data["most_viewed"] = $data["most_viewed"]->get();
+                
         } else if ($page === "videos") {
-            $data["videos"] = $channel->videos()->where("processed", true)->where("terminated", false);
-            if (!$isChannelOwner) $data["videos"] = $data["videos"]->where("public", true)->orderBy("created_at", "desc")->paginate(25);
+            $data["videos"] = $channel->videos()->where("terminated", false);
+            if (!$isChannelOwner) $data["videos"] = $data["videos"]->where("public", true)->where("processed", true)->orderBy("created_at", "desc")->paginate(25);
             else $data["videos"] = $data["videos"]->orderBy("created_at", "desc")->paginate(25);
             $data["hasNextPage"] = $data["videos"]->hasMorePages();
         }

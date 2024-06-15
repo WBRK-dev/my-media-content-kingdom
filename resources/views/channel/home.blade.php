@@ -5,7 +5,7 @@
     <div>
         <p class="fs-5 fw-bold mb-1">Recently Uploaded</p>
         <video-grid class="w-100 single-row">
-            @foreach ($channel->videos()->orderBy("created_at", "desc")->limit(10)->get() as $video)
+            @foreach ($data["recently"] as $video)
                 <video-grid-item class="{{ $video->isFromYoutube() ? "youtube" : "" }}">
                     <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}" class="h-100 d-flex flex-column">
                         <div class="img-wrapper">
