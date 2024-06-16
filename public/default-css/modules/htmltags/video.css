@@ -100,8 +100,12 @@ video-watch-item img {
 video-watch-item .content-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-grow: 1;
+}
+
+.content-wrapper.has-new-tag {
+    justify-content: space-between;
 }
 
 video-watch-item .title {
@@ -145,7 +149,6 @@ video-watch-item .img-wrapper .tag {
 }
 
 video-watch-item .new-tag {
-    display: inline-block;
     background-color: gray;
     color: white;
     padding: 0.3rem;

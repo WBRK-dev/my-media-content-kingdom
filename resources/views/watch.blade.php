@@ -9,12 +9,13 @@
         <div style="display: flex; justify-content: center; flex-grow: 1;"><div style="width: min(100%, 1000px);">
     
             <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
-        
-            <select onchange="updateResolution(this)" style="display: block;"></select>
     
-            <div class="watch-info">
+            <div class="channel">
+                <a href=""><img src="{{config("app.url")}}/api/channel/picture?id={{$video->owner->id}}&type=profile"></a>
+            </div>
+            {{-- <div class="watch-info">
     
-                <div>{{$video->title}}</div>
+                <div class="video-title">{{$video->title}}</div>
     
                 @if (date('d-m-Y') == $video->created_at->format('d-m-Y'))
                     Today
@@ -34,7 +35,7 @@
     
                 <div>{{$video->owner->name}}</div>
     
-            </div>
+            </div> --}}
             @auth
                 <div class="d-flex gap-2">
                     <div class="d-flex gap-1">
@@ -78,6 +79,7 @@
                     </div>
                 </div>
             @endauth
+            <select onchange="updateResolution(this)" style="display: block;"></select>
             
             
     
@@ -91,7 +93,7 @@
                         <img src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
                         <p class="tag">{{ $item->longDuration() }}</p>
                     </a>
-                    <div class="content-wrapper">
+                    <div class="content-wrapper {{ $item->isNew() ? 'has-new-tag' : '' }}">
                         <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="title">{{ $item->title }}</a>
                         <div class="info">
                             <a href="{{ config('app.url') }}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
@@ -107,7 +109,9 @@
                                 {{ $item->getTimeAgo() }}
                             </a>
                         </div>
-                        <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="new-tag">NEW</a>
+                        @if ($item->isNew())
+                            <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="new-tag" style="display: inline-block;">NEW</a>                            
+                        @endif
                     </div>
                 </video-watch-item>  
             @endforeach
