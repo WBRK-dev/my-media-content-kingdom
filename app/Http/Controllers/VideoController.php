@@ -45,6 +45,7 @@ class VideoController extends Controller
 
         TransformVideoProcess::dispatchAfterResponse($uuid, [
             "title" => $request->input("title"),
+            "description" => $request->input("description"),
             "thumbnail" => $thumbnail,
             "visibility" => $request->input("visibility") === "private" ? false : true,
             "userId" => Auth::user()->id

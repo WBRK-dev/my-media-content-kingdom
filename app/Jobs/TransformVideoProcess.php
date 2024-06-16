@@ -57,6 +57,7 @@ class TransformVideoProcess implements ShouldQueue
 
             $video = new Video();
             $video->title = $this->videoData["title"] ?? "Untitled";
+            $video->description = $this->videoData["description"];
             $video->owner_id = $this->videoData["userId"];
             $video->thumbnail_id = $thumbnail->id;
             $video->public = $this->videoData["visibility"];
