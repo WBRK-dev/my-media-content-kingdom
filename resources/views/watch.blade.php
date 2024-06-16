@@ -10,9 +10,64 @@
     
             <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
     
-            <div class="channel">
-                <a href=""><img src="{{config("app.url")}}/api/channel/picture?id={{$video->owner->id}}&type=profile"></a>
+            <div class="video-title">{{$video->title}}</div>
+
+            <div class="video-details">
+                <div class="channel py-2 d-flex">
+                    <a href="{{config("app.url")}}/channel/{{$video->owner->id}}"><img src="{{config("app.url")}}/api/channel/picture?id={{$video->owner->id}}&type=profile"></a>
+                    <div class="info">
+                        <a href="{{config("app.url")}}/channel/{{$video->owner->id}}">{{$video->owner->name}}</a>
+                        @if ($video->owner->videos->count() == 1)
+                            <div class="videos">{{$video->owner->videos->count()}} video</div>
+                        @else
+                            <div class="videos">{{$video->owner->videos->count()}} videos</div>
+                        @endif
+                    </div>
+                </div>
+
+                <div>
+                    @auth
+                    <div class="d-flex gap-2 buttons">
+                        <div class="d-flex gap-4 likebuttons">
+                            <div class="d-flex gap-1 likeelement">
+                                <input type="checkbox" id="checkboxlike" {{ $likestatus === 1 ? 'checked' : '' }}>
+                                <label for="checkboxlike" class="fas fa-thumbs-up icon"></label>
+                                <div id="likeAmount">{{$video->getLikes()}}</div>
+                            </div>
+                            <div class="d-flex gap-1 dislikeelement">
+                                <input type="checkbox" id="checkboxdislike" {{ $likestatus === 0 ? 'checked' : '' }}>
+                                <label for="checkboxdislike" class="fas fa-thumbs-down icon"></label>
+                                <div id="dislikeAmount">{{$video->getDislikes()}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <button id="openformbutton" class="button"><i class="fi fi-sr-flag-alt"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
+                        <div class="card-header">Report video</div>
+                        <div class="card-content d-flex flex-column my-3">
+                            <form>
+                                @csrf
+                                @foreach (config('app.report_reasons') as $reason)
+                                    <div class="my-2">
+                                        <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
+                                        <label for="reason{{$loop->index}}">{{$reason}}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+                        <div class="card-footer d-flex">
+                            <button id="formBtn" type="button">Submit</button>
+                            <button id="closeformbutton">X</button>
+                        </div>
+                    </div>
+                    @endauth
+                </div>
+                
             </div>
+            
             {{-- <div class="watch-info">
     
                 <div class="video-title">{{$video->title}}</div>
@@ -36,49 +91,7 @@
                 <div>{{$video->owner->name}}</div>
     
             </div> --}}
-            @auth
-                <div class="d-flex gap-2">
-                    <div class="d-flex gap-1">
-                        <label for="chkbLike" id="lbLike">Likes:</label>
-                        <div id="likeAmount">{{$video->getLikes()}}</div>
-                        @if ($likestatus == 1)
-                            <input type="checkbox" id="chkbLike" checked>
-                        @else
-                            <input type="checkbox" id="chkbLike">
-                        @endif
-                    </div>
-                    <div class="d-flex gap-1">
-                        <label for="chkbDislike">Dislikes:</label>
-                        <div id="dislikeAmount">{{$video->getDislikes()}}</div>
-                        @if ($likestatus === 0)
-                            <input type="checkbox" id="chkbDislike" checked>                   
-                        @else
-                            <input type="checkbox" id="chkbDislike">
-                        @endif
-                    </div>
-                </div>
-                <div>
-                    <button id="openFormBtn">Report video</button>
-                </div>
-                <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
-                    <div class="card-header">Report video</div>
-                    <div class="card-content d-flex flex-column my-3">
-                        <form>
-                            @csrf
-                            @foreach (config('app.report_reasons') as $reason)
-                                <div class="my-2">
-                                    <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
-                                    <label for="reason{{$loop->index}}">{{$reason}}</label>
-                                </div>
-                            @endforeach
-                        </form>
-                    </div>
-                    <div class="card-footer d-flex">
-                        <button id="formBtn" type="button">Submit</button>
-                        <button id="closeFormBtn">X</button>
-                    </div>
-                </div>
-            @endauth
+            
             <select onchange="updateResolution(this)" style="display: block;"></select>
             
             
@@ -124,6 +137,8 @@
 @endsection
 
 @section('head')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
     <script>
         let hls;
@@ -149,8 +164,8 @@
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = videoSrc; video.play(); }
 
 
-            let likeElement = document.getElementById("chkbLike");
-            let dislikeElement = document.getElementById("chkbDislike");
+            let likeElement = document.getElementById("checkboxlike");
+            let dislikeElement = document.getElementById("checkboxdislike");
             
             let likeAmountElem = document.getElementById("likeAmount");
             let dislikeAmountElem = document.getElementById("dislikeAmount");            
@@ -188,8 +203,8 @@
             const formBtn = document.getElementById("formBtn");
             formBtn.addEventListener("click", formSubmit);
             
-            document.getElementById("openFormBtn").addEventListener("click", showReportBox);
-            document.getElementById("closeFormBtn").addEventListener("click", closeReportBox); 
+            document.getElementById("openformbutton").addEventListener("click", showReportBox);
+            document.getElementById("closeformbutton").addEventListener("click", closeReportBox); 
         });
 
         function updateResolution(elem) {
