@@ -4,7 +4,7 @@
     
     <video-grid class="w-100">
         @foreach ($data["videos"] as $video)
-            <video-grid-item class="{{ $video->isFromYoutube() ? "youtube" : "" }}">
+            {{-- <video-grid-item class="{{ $video->isFromYoutube() ? "youtube" : "" }}">
                 <a href="{{ config('app.url') }}/watch?id={{ $video->getId() }}">
                     <div class="img-wrapper">
                         <img src="{{ config('app.url') }}/api/thumbnail?id={{ $video->thumbnail->id }}" class="video-thumbnail" style="width: 100%;">
@@ -34,7 +34,19 @@
                         </div>
                     </div>
                 </a>
-            </video-grid-item>
+            </video-grid-item> --}}
+            @include('modules.video', [
+                    "id" => $video->getId(),
+                    "title" => $video->title,
+                    "thumbnailId" => $video->thumbnail_id,
+                    "channelName" => $video->owner->name,
+                    "channelId" => $video->owner->id,
+                    "views" => $video->getViews(),
+                    "timeAgo" => $video->getTimeAgo(),
+                    "isNew" => $video->isNew(),
+                    "duration" => $video->shortDuration(),
+                    "isFromYoutube" => $video->isFromYoutube()
+                ])
         @endforeach
     </video-grid>
 

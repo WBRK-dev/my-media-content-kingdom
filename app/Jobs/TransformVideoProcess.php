@@ -138,6 +138,8 @@ class TransformVideoProcess implements ShouldQueue
                         $thumbnail->data = File::get($fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
                     }
 
+                    $video->processed_state++;
+
                     $thumbnail->save();
                     $video->save();
                     $videoPlaylist->save();

@@ -52,13 +52,21 @@ class UserController extends Controller
             $data["most_liked"] = Video::select("videos.*", DB::raw("SUM(video_likes.liked) as likes"))
                 ->leftJoin('video_likes', 'videos.id', '=', 'video_likes.video_id')
                 ->where("owner_id", $channel->id)
-                ->groupBy("id")->orderBy("likes", "desc")->orderBy("created_at", "desc")->limit(10)->get();
+                ->where("processed", true)->where("terminated", false)
+                ->groupBy("id")->orderBy("likes", "desc")->orderBy("created_at", "desc")->limit(10);
+                if (!$isChannelOwner) $data["most_liked"] = $data["most_liked"]->where("public", true)->get();
+                else $data["most_liked"] = $data["most_liked"]->get();
             $data["most_viewed"] = Video::select("videos.*", DB::raw("SUM(video_views.amount) as views"))
                 ->leftJoin('video_views', 'videos.id', '=', 'video_views.video_id')
                 ->where("owner_id", $channel->id)
-                ->groupBy("id")->orderBy("views", "desc")->orderBy("created_at", "desc")->limit(10)->get();
+                ->where("processed", true)->where("terminated", false)
+                ->groupBy("id")->orderBy("views", "desc")->orderBy("created_at", "desc")->limit(10);
+                if (!$isChannelOwner) $data["most_viewed"] = $data["most_viewed"]->where("public", true)->get();
+                else $data["most_viewed"] = $data["most_viewed"]->get();
         } else if ($page === "videos") {
-            $data["videos"] = $channel->videos()->orderBy("created_at", "desc")->paginate(25);
+            $data["videos"] = $channel->videos()->where("processed", true)->where("terminated", false);
+            if (!$isChannelOwner) $data["videos"] = $data["videos"]->where("public", true)->orderBy("created_at", "desc")->paginate(25);
+            else $data["videos"] = $data["videos"]->orderBy("created_at", "desc")->paginate(25);
             $data["hasNextPage"] = $data["videos"]->hasMorePages();
         }
 
@@ -89,7 +97,13 @@ class UserController extends Controller
      */
     function showPaginatedVideos(Request $request) {
         $channel = User::findOrFail($request->input("id"));
-        $videos = $channel->videos()->orderBy("created_at", "desc")->paginate(25);
+        $isChannelOwner = Auth::check() && Auth::user()->id === $channel->id;
+        
+        $videos = $channel->videos()->where("processed", true)->where("terminated", false);
+
+        if (!$isChannelOwner) $videos = $videos->where("public", true)->orderBy("created_at", "desc")->paginate(25);
+        else $videos = $videos->orderBy("created_at", "desc")->paginate(25);
+
         $hasNextPage = $videos->hasMorePages();
 
         $generatedVideos = "";

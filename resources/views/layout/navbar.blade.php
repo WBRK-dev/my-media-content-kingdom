@@ -16,7 +16,7 @@
 
     @if (Auth::check())
         <div class="d-flex gap-2 align-items-center pe-2">
-            <a href="{{config("app.url")}}/upload" class="icon-button"><i class="fi fi-sr-plus"></i></a>
+            <button onclick="toggleUploadPopup()" class="icon-button"><i class="fi fi-sr-plus"></i></button>
             
             <?php $accountDropdownUser = auth()->user(); ?>
             <div class="account-dropdown-wrapper">

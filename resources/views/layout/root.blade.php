@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="{{ config("app.url") }}/favicon.ico" type="image/x-icon">
     <script src="{{ config("app.url") }}/script-modules/layout-searchbar.js"></script>
     <script src="{{ config("app.url") }}/script-modules/account-popup.js"></script>
+    <script src="{{ config("app.url") }}/script-modules/upload-popup.js"></script>
     @vite(['resources/js/app.js'])
     @yield('head')
     <title>@yield('title'){{ config("app.name") }}</title>
@@ -21,5 +22,8 @@
             @yield('body')
         </div>
     </div>
+
+    @include("upload.modal")
+    
 </body>
 </html>

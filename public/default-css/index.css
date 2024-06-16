@@ -12,6 +12,8 @@
 @import url("./modules/layout/sidebar.css");
 @import url("./modules/layout/main.css");
 
+@import url("./modules/upload/modal.css");
+
 @import url("./modules/htmltags/video.css");
 
 @import url("modules/reported-videos/index.css");
@@ -29,8 +31,10 @@ body {
 
     --body-bg: #343A40;
     --body-color: #fff;
+    --body-border: #64676b;
 
     --body-secondary-bg: #444b52;
     --body-secondary-color: #adadad;
+
 
 }

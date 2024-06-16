@@ -85,7 +85,8 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
             } catch (\Throwable $th) {
                 Log::critical($th);
             }
-            
+
+            $video->processed_state++;
             $video->save();
 
             $thumbnail->video_id = $video->id;
@@ -146,6 +147,8 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
     #EXT-X-STREAM-INF:PROGRAM-ID=1,RESOLUTION=1920x1080,NAME="1080"
     1080/index.m3u8';
                     }
+
+                    $video->processed_state++;
 
                     $thumbnail->save();
                     $video->save();
