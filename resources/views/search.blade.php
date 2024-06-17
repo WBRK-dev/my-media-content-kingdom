@@ -28,8 +28,8 @@
                 <p class="fs-5 fw-bold mb-2">Search Filters</p>
     
                 <div class="d-flex gap-2">
-    
-                    <div>
+                   
+                    <div class="search-filter">
                         <p class="fw-bold mb-1">Filter on</p>
                         <input type="radio" name="filter" id="created_at" value="created_at"{{ $_GET["filter"] === "created_at" ? "checked" : "" }}><label for="created_at">Release Date</label><br>
                         <input type="radio" name="filter" id="length" value="length"{{ $_GET["filter"] === "length" ? "checked" : "" }}><label for="length">Length</label><br>
@@ -37,7 +37,7 @@
                         <input type="radio" name="filter" id="likes" value="likes"{{ $_GET["filter"] === "likes" ? "checked" : "" }}><label for="likes">Likes</label>
                     </div>
                     
-                    <div>
+                    <div class="searh-sort">
                         <p class="fw-bold mb-1">Sorting</p>
                         <input type="radio" name="sort" id="desc" value="desc"{{ $_GET["sort"] === "desc" ? "checked" : "checked" }}><label for="desc">Desc</label><br>
                         <input type="radio" name="sort" id="asc" value="asc"{{ $_GET["sort"] === "asc" ? "checked" : "" }}><label for="asc">Asc</label>
@@ -47,7 +47,7 @@
 
                 </div>
 
-                <div class="d-flex mt-2"><button class="">Filter</button></div>
+                <div class="d-flex mt-2"><button class="filter-button">Filter</button></div>
             </form>
 
         </div>
