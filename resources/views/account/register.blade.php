@@ -7,10 +7,10 @@
             
             @csrf
     
-            <input type="text" name="name" placeholder="Name">
-            <input type="text" name="email" placeholder="Email">
-            <input type="text" name="password" placeholder="Password">
-            <input type="text" name="password_confirmation" placeholder="Password">
+            <input type="text" name="name" placeholder="Name" autocomplete="off">
+            <input type="text" name="email" placeholder="Email" autocomplete="off">
+            <input type="text" name="password" placeholder="Password" autocomplete="off">
+            <input type="text" name="password_confirmation" placeholder="Repeat Password" autocomplete="off">
             <button>Register</button>
 
             @if($errors->any())

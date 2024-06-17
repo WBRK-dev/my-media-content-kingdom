@@ -95,6 +95,9 @@ a.login:hover, a.logout:hover, a.upload:hover {
     text-decoration: none;
 }
 
+.item-list {
+    font-weight: bold;
+}
 
 .icon-button {
     all: unset;
@@ -107,11 +110,6 @@ a.login:hover, a.logout:hover, a.upload:hover {
 
     cursor: pointer;
 }
-
-.icon-button:hover {
-    background-color: #ffffff38;
-}
-
 
 .account-dropdown-wrapper {
     position: relative;
@@ -228,5 +226,5 @@ a.login:hover, a.logout:hover, a.upload:hover {
     border-bottom-right-radius: .5rem;
 }
 .account-dropdown-wrapper .account-dropdown .item-list .list-item:hover {
-    background-color: #4f575e;
+    color: #00b4d8;
 }
