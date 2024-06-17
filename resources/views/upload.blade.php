@@ -10,7 +10,7 @@
             @csrf
     
             <label for="title">Title: </label>
-            <input type="text" name="title" id="title" required style="width: 500px;">
+            <input type="text" name="title" id="title" required style="width: 500px;" autocomplete="off">
     
             <br><br>
     
@@ -40,7 +40,7 @@
             @csrf
     
             <label for="youtubeid">Youtube ID: </label>
-            <input type="text" name="youtubeid" id="youtubeid" required style="width: 500px;">
+            <input type="text" name="youtubeid" id="youtubeid" required style="width: 500px;" autocomplete="off">
     
             <br><br>
     

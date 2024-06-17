@@ -1,0 +1,41 @@
+
+.register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #343A40;
+    height: 100%;
+    width: 100%;
+}
+
+.register input {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 200px;
+    border: 1px solid;
+    border-radius: 400px;
+    transition: border-color 0.3s;
+    color: #343A40;
+}
+
+.register input:focus {
+    outline: 3px solid #00b4d8; 
+    border-color: #00b4d8;
+}
+
+.register button {
+    width: 220px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px; 
+    background-color: #00b4d8;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register button:hover {
+    background-color: #0096c7;
+}
+
