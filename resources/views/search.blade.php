@@ -15,8 +15,6 @@
             filterElem.value = e.target.value;
         });
 
-        let filterSelected = ;
-        let sortSelected = ;
         console.log(filterSelected, sortSelected);
     });
 </script>
