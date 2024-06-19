@@ -37,6 +37,10 @@
         @endforeach
     </video-grid>
 
+    @if (count($videos) === 0)
+        <div class="d-flex justify-content-center"><p class="text-center" style="color: var(--body-secondary-color);">The upload queue is empty.</p></div>
+    @endif
+
 @endsection
 
 @section("head")
