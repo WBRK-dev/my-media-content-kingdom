@@ -42,6 +42,7 @@ Route::put("/channel/{channel}", [UserController::class, "update"])->middleware(
 Route::get("/upload", [VideoController::class, "create"])->middleware("auth");
 Route::post("/upload", [VideoController::class, "store"])->middleware("auth");
 Route::post("/upload-youtube", [VideoController::class, "storeFromYoutube"])->middleware("auth");
+Route::get("/upload-queue", [UserController::class, "showUploadQueue"])->middleware("auth");
 
 // Watch
 Route::get("/watch", [WatchController::class, "show"]);

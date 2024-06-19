@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Thumbnail;
 use App\Models\Video;
 use App\Models\VideoSegment;
+use App\Models\VideoUploadJob;
 
 class TransformVideoFromYoutubeProcess implements ShouldQueue
 {
@@ -67,6 +68,11 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
             Storage::put($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp", $thumbnailSource);
             $thumbnail->data = Storage::read($this->dirUuid . DIRECTORY_SEPARATOR . "thumbnail.webp");
             $thumbnail->save();
+
+            $videoUploadJob = new VideoUploadJob();
+            $videoUploadJob->video_id = $video->id;
+            $videoUploadJob->isFromYoutube = true;
+            $videoUploadJob->save();
             
             $videoDownloadCmd = "$ffmpegBin -i \"" . $this->videoData["video"] . "\" -c copy -bsf:a aac_adtstoasc \"" . $fullPath . DIRECTORY_SEPARATOR . "input-video.mp4\" 2>&1";
             $audioDownloadCmd = "$ffmpegBin -i \"" . $this->videoData["audio"] . "\" -c copy -bsf:a aac_adtstoasc \"" . $fullPath . DIRECTORY_SEPARATOR . "input-audio.mp4\" 2>&1";
@@ -86,8 +92,8 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
                 Log::critical($th);
             }
 
-            $video->processed_state++;
-            $video->save();
+            $videoUploadJob->status++;
+            $videoUploadJob->save();
 
             $thumbnail->video_id = $video->id;
             $thumbnail->save();
@@ -100,8 +106,6 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
             $videoPlaylist->save();
 
             $resolutions = ["640x360", "1280x720", "1920x1080"];
-
-            $thumbnailVideoSegmentIndex = null;
 
             foreach ($resolutions as $res) {
 
@@ -148,15 +152,19 @@ class TransformVideoFromYoutubeProcess implements ShouldQueue
     1080/index.m3u8';
                     }
 
-                    $video->processed_state++;
+                    $videoUploadJob->status++;
 
                     $thumbnail->save();
                     $video->save();
                     $videoPlaylist->save();
+                    $videoUploadJob->save();
 
                 } catch (\Throwable $th) { Log::critical($th); }
 
             }
+    
+            $video->processed = 2;
+            $video->save();
 
         } catch (\Throwable $th) { Log::critical($th); }
 
