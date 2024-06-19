@@ -88,10 +88,11 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Video $video)
+    public function destroy(Request $request)
     {
+        $video = Video::findOrFail(VideoController::alphaID($request->input("id"), true));
         $video->delete();
-        return redirect("/");
+        return back();
     }
 
     /**

@@ -81,3 +81,16 @@ video-grid-item .info .channel-button {
 
     font-size: 16px;
 }
+
+.video-delete {
+    margin-top: .5rem;
+    font-weight: bold;
+    background-color: #00000000;
+    border: 2px solid white;
+    border-radius: .5rem;
+}
+
+.video-delete:hover {
+    color: red;
+    border-color: red;
+}

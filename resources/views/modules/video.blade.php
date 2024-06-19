@@ -24,6 +24,13 @@
                     @if ($isNew)
                         <div class="new-badge">NEW</div>
                     @endif
+                    @permission('video-remove')
+                        <form method="post" action="{{ config('app.url') }}/delete?id={{ $video->getId() }}">
+                            @csrf
+                            @method('DELETE')
+                            <button class="video-delete">Delete</button>
+                        </form>
+                    @endpermission
                 </div>
             </div>
         </div>
