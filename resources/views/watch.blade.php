@@ -31,17 +31,20 @@
                         <div class="d-flex gap-4 likebuttons">
                             <div class="d-flex gap-1 likeelement">
                                 <input type="checkbox" id="checkboxlike" {{ $likestatus === 1 ? 'checked' : '' }}>
-                                <label for="checkboxlike" class="fas fa-thumbs-up icon"></label>
+                                <label for="checkboxlike" class="icon likelabel"><i class="fi fi-sr-thumbs-up"></i></label>
                                 <div id="likeAmount">{{$video->getLikes()}}</div>
                             </div>
                             <div class="d-flex gap-1 dislikeelement">
                                 <input type="checkbox" id="checkboxdislike" {{ $likestatus === 0 ? 'checked' : '' }}>
-                                <label for="checkboxdislike" class="fas fa-thumbs-down icon"></label>
+                                <label for="checkboxdislike" class="icon dislikelabel"><i class="fi fi-sr-thumbs-down"></i></label>
                                 <div id="dislikeAmount">{{$video->getDislikes()}}</div>
                             </div>
                         </div>
                         <div>
                             <button id="openformbutton" class="button"><i class="fi fi-sr-flag-alt"></i></button>
+                        </div>
+                        <div>
+                            <select class="resolutionchange" onchange="updateResolution(this)"></select>
                         </div>
                     </div>
                     
@@ -63,47 +66,41 @@
                             <button id="closeformbutton">X</button>
                         </div>
                     </div>
+                    @else
+                    <div class="d-flex gap-2 buttons">
+                        <div>
+                            <select class="resolutionchange" onchange="updateResolution(this)"></select>
+                        </div>
+                    </div>
                     @endauth
                 </div>
                 
             </div>
-            
-            {{-- <div class="watch-info">
-    
-                <div class="video-title">{{$video->title}}</div>
-    
-                @if (date('d-m-Y') == $video->created_at->format('d-m-Y'))
-                    Today
-                @else
-                    <div>{{$video->created_at->format('F, j Y')}}</div>
-                @endif
-    
+
+            <div class="video-description">
+                <div class="description-header d-flex gap-2">
+                    <div class="viewcount">
+                        @if ($video->getViews() == 1)
+                            <div>{{$video->getViews()}} view</div>
+                        @else
+                            <div>{{$video->getViews()}} views</div>
+                        @endif
+                    </div>
+                    <div class="upload-date">
+                        <div>{{$video->created_at->format('M j, Y')}}</div>
+                    </div>
+                </div>
+                <textarea class="video-description-value" disabled>{{$video->description}}</textarea>
             </div>
-    
-            <div class="watch-info">
-    
-                @if ($video->getViews() == 1)
-                    <div>{{$video->getViews()}} view</div>
-                @else
-                    <div>{{$video->getViews()}} views</div>
-                @endif
-    
-                <div>{{$video->owner->name}}</div>
-    
-            </div> --}}
             
-            <select onchange="updateResolution(this)" style="display: block;"></select>
-            
-            
-    
         </div></div>
 
-        <div style="width: 450px;" class="d-flex flex-column gap-2">
+        <div style="width: 450px; flex-shrink: 0;" class="d-flex flex-column gap-2">
             @foreach ($videos as $item)
                 @if ($item->id == $video->id) @continue @endif
                 <video-watch-item class="{{ $item->isFromYoutube() ? "youtube" : "" }}">
                     <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="img-wrapper">
-                        <img src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
+                        <img  src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
                         <p class="tag">{{ $item->longDuration() }}</p>
                     </a>
                     <div class="content-wrapper {{ $item->isNew() ? 'has-new-tag' : '' }}">
@@ -205,6 +202,15 @@
             
             document.getElementById("openformbutton").addEventListener("click", showReportBox);
             document.getElementById("closeformbutton").addEventListener("click", closeReportBox); 
+
+            const textarea = document.querySelector('.video-description-value');
+
+            function adjustTextareaHeight() {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + "px";
+            }
+
+            adjustTextareaHeight();
         });
 
         function updateResolution(elem) {
