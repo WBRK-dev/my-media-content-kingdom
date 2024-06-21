@@ -42,6 +42,7 @@ Route::put("/channel/{channel}", [UserController::class, "update"])->middleware(
 Route::get("/upload", [VideoController::class, "create"])->middleware("auth");
 Route::post("/upload", [VideoController::class, "store"])->middleware("auth");
 Route::post("/upload-youtube", [VideoController::class, "storeFromYoutube"])->middleware("auth");
+Route::get("/upload-queue", [UserController::class, "showUploadQueue"])->middleware("auth");
 
 // Watch
 Route::get("/watch", [WatchController::class, "show"]);
@@ -55,6 +56,7 @@ Route::post("/api/watch/report_video", [WatchController::class, "videoReported"]
 
 // Admin
 Route::get("/reported-videos", [ReportedVideosController::class, "show"]);
+Route::post("/reported-videos/handleReport", [ReportedVideosController::class, "handleReport"]);
 Route::delete("/delete", [VideoController::class, "destroy"]);
 
 // Account

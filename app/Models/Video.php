@@ -68,6 +68,9 @@ class Video extends Model
     }
 
     public function shortDuration() {
+        
+        if (!$this->processed) return "PROCESSING";
+
         $duration = $this->length;
         $hours = floor($duration / 3600);
         $minutes = floor(($duration - ($hours * 3600)) / 60);
@@ -80,6 +83,21 @@ class Video extends Model
             return $seconds . "s";
         } else {
             return "0s";
+        }
+    }
+    
+
+    public function longDuration() {
+        $duration = $this->length;
+        $hours = floor($duration / 3600);
+        $minutes = floor(($duration - ($hours * 3600)) / 60);
+        $seconds = $duration - ($hours * 3600) - ($minutes * 60);
+        if ($hours > 0) {
+            return $hours . ":" . $minutes . ":" . $seconds;
+        } else if ($seconds > 0) {
+            return $minutes . ":" . $seconds;
+        } else {
+            return "00:00";
         }
     }
 

@@ -82,6 +82,82 @@ video-grid-item .info .channel-button {
     font-size: 16px;
 }
 
+video-watch-item {
+    display: grid;
+    grid-template-columns: 1.3fr 1.7fr;
+    gap: .5rem;
+}
+
+video-watch-item img {
+    display: block;
+    background-color: #474747;
+    border-radius: 0.5rem;
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: contain;
+}
+
+video-watch-item .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+
+.content-wrapper.has-new-tag {
+    justify-content: space-between;
+}
+
+video-watch-item .title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: .5rem;
+    font-weight: bold;
+}
+
+video-watch-item .info
+
+video-watch-item .info > * {
+    color: rgb(187, 187, 187);
+    display: flex;
+}
+
+video-watch-item a {
+    text-decoration: none;
+}
+
+video-watch-item .img-wrapper {
+    position: relative;
+}
+
+video-watch-item .img-wrapper .tag {
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+
+    padding: .2rem .5rem;
+    background-color: rgb(30, 30, 30, 0.8);
+    border-radius: .5rem;
+    color: #fff;
+
+    box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+
+    font-size: 12px;
+}
+
+video-watch-item .new-tag {
+    background-color: gray;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 3px;
+    align-self: flex-start;
+    margin-top: auto;
+    width: auto;
+}
+
 .video-delete {
     margin-top: .5rem;
     font-weight: bold;

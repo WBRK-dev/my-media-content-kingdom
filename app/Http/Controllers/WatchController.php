@@ -14,6 +14,7 @@ class WatchController extends Controller
 {
     function show(Request $request) {
         $video = Video::findOrFail(VideoController::alphaID($request->input("id"), true));
+        $videos = Video::where("public", true)->where("processed", true)->where("terminated", false)->orderBy("created_at", "desc")->limit(15)->get();
         $viewInput = new VideoView();
         $likestatus = null;
         $table = DB::table('video_views');
@@ -43,6 +44,7 @@ class WatchController extends Controller
         
         return view('watch', [
             'video' => $video,
+            'videos' => $videos,
             'likestatus' => $likestatus
         ]);
     }

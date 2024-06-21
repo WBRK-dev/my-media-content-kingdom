@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string("title");
+            $table->text("description")->default("");
             $table->integer("thumbnail_id");
             $table->integer("owner_id");
             $table->integer("length")->default(0);
             $table->boolean("public");
             $table->string("youtube_id")->nullable(true);
-            $table->boolean("processed")->default(false);
-            $table->integer("processed_state")->default(0);
+            $table->integer("processed")->default(0);
             $table->boolean("terminated")->default(0);
             $table->timestamp('terminated_at')->nullable(true);
             $table->timestamp('created_at')->useCurrent();

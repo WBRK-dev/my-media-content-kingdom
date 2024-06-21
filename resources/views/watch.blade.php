@@ -1,88 +1,141 @@
 @extends('layout.root')
 
+@section('title', $video->title.' - ')
+
 @section('body')
     
-    <div style="display: flex; justify-content: center;"><div style="width: min(100%, 1000px);">
+    <div class="d-flex gap-2">
 
-        <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
+        <div style="display: flex; justify-content: center; flex-grow: 1;"><div style="width: min(100%, 1000px);">
     
-        <select onchange="updateResolution(this)" style="display: block;"></select>
+            <video controls muted style="display: block; width: 100%; aspect-ratio: 16/9; background-color: #474747;"></video>
+    
+            <div class="video-title">{{$video->title}}</div>
 
-        <div class="watch-info">
-
-            <div>{{$video->title}}</div>
-
-            @if (date('d-m-Y') == $video->created_at->format('d-m-Y'))
-                Today
-            @else
-                <div>{{$video->created_at->format('F, j Y')}}</div>
-            @endif
-
-        </div>
-
-        <div class="watch-info">
-
-            @if ($video->getViews() == 1)
-                <div>{{$video->getViews()}} view</div>
-            @else
-                <div>{{$video->getViews()}} views</div>
-            @endif
-
-            <div>{{$video->owner->name}}</div>
-
-        </div>
-        @auth
-            <div class="d-flex gap-2">
-                <div class="d-flex gap-1">
-                    <label for="chkbLike" id="lbLike">Likes:</label>
-                    <div id="likeAmount">{{$video->getLikes()}}</div>
-                    @if ($likestatus == 1)
-                        <input type="checkbox" id="chkbLike" checked>
-                    @else
-                        <input type="checkbox" id="chkbLike">
-                    @endif
+            <div class="video-details">
+                <div class="channel py-2 d-flex">
+                    <a href="{{config("app.url")}}/channel/{{$video->owner->id}}"><img src="{{config("app.url")}}/api/channel/picture?id={{$video->owner->id}}&type=profile"></a>
+                    <div class="info">
+                        <a href="{{config("app.url")}}/channel/{{$video->owner->id}}">{{$video->owner->name}}</a>
+                        @if ($video->owner->videos->count() == 1)
+                            <div class="videos">{{$video->owner->videos->count()}} video</div>
+                        @else
+                            <div class="videos">{{$video->owner->videos->count()}} videos</div>
+                        @endif
+                    </div>
                 </div>
-                <div class="d-flex gap-1">
-                    <label for="chkbDislike">Dislikes:</label>
-                    <div id="dislikeAmount">{{$video->getDislikes()}}</div>
-                    @if ($likestatus === 0)
-                        <input type="checkbox" id="chkbDislike" checked>                   
-                    @else
-                        <input type="checkbox" id="chkbDislike">
-                    @endif
-                </div>
-            </div>
-            <div>
-                <button id="openFormBtn">Report video</button>
-            </div>
-            <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
-                <div class="card-header">Report video</div>
-                <div class="card-content d-flex flex-column my-3">
-                    <form>
-                        @csrf
-                        @foreach (config('app.report_reasons') as $reason)
-                            <div class="my-2">
-                                <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
-                                <label for="reason{{$loop->index}}">{{$reason}}</label>
+
+                <div>
+                    @auth
+                    <div class="d-flex gap-2 buttons">
+                        <div class="d-flex gap-4 likebuttons">
+                            <div class="d-flex gap-1 likeelement">
+                                <input type="checkbox" id="checkboxlike" {{ $likestatus === 1 ? 'checked' : '' }}>
+                                <label for="checkboxlike" class="icon likelabel"><i class="fi fi-sr-thumbs-up"></i></label>
+                                <div id="likeAmount">{{$video->getLikes()}}</div>
                             </div>
-                        @endforeach
-                    </form>
+                            <div class="d-flex gap-1 dislikeelement">
+                                <input type="checkbox" id="checkboxdislike" {{ $likestatus === 0 ? 'checked' : '' }}>
+                                <label for="checkboxdislike" class="icon dislikelabel"><i class="fi fi-sr-thumbs-down"></i></label>
+                                <div id="dislikeAmount">{{$video->getDislikes()}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <button id="openformbutton" class="button"><i class="fi fi-sr-flag-alt"></i></button>
+                        </div>
+                        <div>
+                            <select class="resolutionchange" onchange="updateResolution(this)"></select>
+                        </div>
+                    </div>
+                    
+                    <div id="report-card" class="report-card px-4 py-2 text-white bg-secondary">
+                        <div class="card-header">Report video</div>
+                        <div class="card-content d-flex flex-column my-3">
+                            <form>
+                                @csrf
+                                @foreach (config('app.report_reasons') as $reason)
+                                    <div class="my-2">
+                                        <input type="radio" id="reason{{$loop->index}}" name="report_reason" value="{{$loop->index}}">
+                                        <label for="reason{{$loop->index}}">{{$reason}}</label>
+                                    </div>
+                                @endforeach
+                            </form>
+                        </div>
+                        <div class="card-footer d-flex">
+                            <button id="formBtn" type="button">Submit</button>
+                            <button id="closeformbutton">X</button>
+                        </div>
+                    </div>
+                    @else
+                    <div class="d-flex gap-2 buttons">
+                        <div>
+                            <select class="resolutionchange" onchange="updateResolution(this)"></select>
+                        </div>
+                    </div>
+                    @endauth
                 </div>
-                <div class="card-footer d-flex">
-                    <button id="formBtn" type="button">Submit</button>
-                    <button id="closeFormBtn">X</button>
-                </div>
+                
             </div>
-        @endauth
-        
-        
 
-    </div></div>
+            <div class="video-description">
+                <div class="description-header d-flex gap-2">
+                    <div class="viewcount">
+                        @if ($video->getViews() == 1)
+                            <div>{{$video->getViews()}} view</div>
+                        @else
+                            <div>{{$video->getViews()}} views</div>
+                        @endif
+                    </div>
+                    <div class="upload-date">
+                        <div>{{$video->created_at->format('M j, Y')}}</div>
+                    </div>
+                </div>
+                <textarea class="video-description-value" disabled>{{$video->description}}</textarea>
+            </div>
+            
+        </div></div>
+
+        <div style="width: 450px; flex-shrink: 0;" class="d-flex flex-column gap-2">
+            @foreach ($videos as $item)
+                @if ($item->id == $video->id) @continue @endif
+                <video-watch-item class="{{ $item->isFromYoutube() ? "youtube" : "" }}">
+                    <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="img-wrapper">
+                        <img  src="{{ config('app.url') }}/api/thumbnail?id={{ $item->thumbnail->id }}">
+                        <p class="tag">{{ $item->longDuration() }}</p>
+                    </a>
+                    <div class="content-wrapper {{ $item->isNew() ? 'has-new-tag' : '' }}">
+                        <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="title">{{ $item->title }}</a>
+                        <div class="info">
+                            <a href="{{ config('app.url') }}/channel/{{ $item->owner->id }}" class="d-flex">{{ $item->owner->name }}</a>
+                            <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="d-flex">
+                                @if ($item->getViews() == 1)
+                                    {{$item->getViews()}} view
+                                @else
+                                    {{$item->getViews()}} views
+                                @endif
+
+                                &#x2022;
+                                
+                                {{ $item->getTimeAgo() }}
+                            </a>
+                        </div>
+                        @if ($item->isNew())
+                            <a href="{{ config('app.url') }}/watch?id={{ $item->getId() }}" class="new-tag" style="display: inline-block;">NEW</a>                            
+                        @endif
+                    </div>
+                </video-watch-item>  
+            @endforeach
+        </div>
+
+    </div>
+
 
 
 @endsection
 
 @section('head')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
     <script>
         let hls;
@@ -108,8 +161,8 @@
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = videoSrc; video.play(); }
 
 
-            let likeElement = document.getElementById("chkbLike");
-            let dislikeElement = document.getElementById("chkbDislike");
+            let likeElement = document.getElementById("checkboxlike");
+            let dislikeElement = document.getElementById("checkboxdislike");
             
             let likeAmountElem = document.getElementById("likeAmount");
             let dislikeAmountElem = document.getElementById("dislikeAmount");            
@@ -147,8 +200,17 @@
             const formBtn = document.getElementById("formBtn");
             formBtn.addEventListener("click", formSubmit);
             
-            document.getElementById("openFormBtn").addEventListener("click", showReportBox);
-            document.getElementById("closeFormBtn").addEventListener("click", closeReportBox); 
+            document.getElementById("openformbutton").addEventListener("click", showReportBox);
+            document.getElementById("closeformbutton").addEventListener("click", closeReportBox); 
+
+            const textarea = document.querySelector('.video-description-value');
+
+            function adjustTextareaHeight() {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + "px";
+            }
+
+            adjustTextareaHeight();
         });
 
         function updateResolution(elem) {

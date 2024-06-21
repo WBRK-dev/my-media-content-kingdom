@@ -1,5 +1,7 @@
 @extends('layout.root')
 
+@section('title','Reported Videos - ')
+
 @section('body')
     <main>
         <video-grid class="w-100 d-flex flex-column p-4" style="box-sizing: border-box">
@@ -12,18 +14,14 @@
                         <div>Reporter: {{$video->user->name}}</div>
                         <div>Reason: {{config('app.report_reasons')[$video->reason_id]}}</div>
                     </a>
-                    <div style="margin-left: auto;" class="flex-shrink-0">
-                        <button onclick="">Accept</button>
-                        <button onclick="">Deny</button>
-                    </div>
+                    <form method="POST" action="{{ config('app.url') }}/reported-videos/handleReport" style="margin-left: auto;" class="flex-shrink-0">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $video->video->getId() }}">
+                        <button name="action" value="accept">Accept</button>
+                        <button name="action" value="deny">Deny</button>
+                    </form>
                 </div>
             @endforeach
         </video-grid>
     </main>
-@endsection
-
-@section('head')
-    <script>
-        
-    </script>
 @endsection

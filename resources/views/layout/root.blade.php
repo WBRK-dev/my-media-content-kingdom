@@ -12,7 +12,7 @@
     <script src="{{ config("app.url") }}/script-modules/upload-popup.js"></script>
     @vite(['resources/js/app.js'])
     @yield('head')
-    <title>{{ config("app.name") }}</title>
+    <title>@yield('title'){{ config("app.name") }}</title>
 </head>
 <body style="height: 100vh; height: 100dvh;">
     @include("layout.navbar")

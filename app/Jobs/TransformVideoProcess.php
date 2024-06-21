@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Thumbnail;
 use App\Models\Video;
 use App\Models\VideoSegment;
+use App\Models\VideoUploadJob;
 
 class TransformVideoProcess implements ShouldQueue
 {
@@ -57,6 +58,7 @@ class TransformVideoProcess implements ShouldQueue
 
             $video = new Video();
             $video->title = $this->videoData["title"] ?? "Untitled";
+            $video->description = $this->videoData["description"];
             $video->owner_id = $this->videoData["userId"];
             $video->thumbnail_id = $thumbnail->id;
             $video->public = $this->videoData["visibility"];
@@ -81,6 +83,10 @@ class TransformVideoProcess implements ShouldQueue
             $videoPlaylist->file_name = "playlist-index.m3u8";
             $videoPlaylist->data = '#EXTM3U';
             $videoPlaylist->save();
+
+            $videoUploadJob = new VideoUploadJob();
+            $videoUploadJob->video_id = $video->id;
+            $videoUploadJob->save();
 
             $resolutions = ["640x360", "1280x720", "1920x1080"];
 
@@ -138,15 +144,19 @@ class TransformVideoProcess implements ShouldQueue
                         $thumbnail->data = File::get($fullPath . DIRECTORY_SEPARATOR . "thumbnail-$yRes.jpg");
                     }
 
-                    $video->processed_state++;
+                    $videoUploadJob->status++;
 
                     $thumbnail->save();
                     $video->save();
                     $videoPlaylist->save();
+                    $videoUploadJob->save();
 
                 } catch (\Throwable $th) { Log::critical($th); }
 
             }
+
+            $video->processed = 2;
+            $video->save();
 
         } catch (\Throwable $th) { Log::critical($th); }
 

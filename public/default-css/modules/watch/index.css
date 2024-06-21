@@ -15,3 +15,133 @@
 .card-footer {
     justify-content: space-between;
 }
+
+.video-title {
+    font-size: 24px;
+    margin-left: 0.5rem;
+}
+
+.video-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem;
+}
+
+.channel > a {
+    display: inline-block;
+}
+
+.channel > a img {
+    display: block;
+    height: 48px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.channel .info {
+    align-content: center;
+}
+
+.channel .info a {
+    text-decoration: none;
+}
+
+.channel .info .videos {
+    font-size: 14px;
+    color: gray;
+}
+
+.buttons {
+    padding: 1rem, 0, 1rem, 0;
+}
+
+.likebuttons {
+    display: block;
+    background-color: gray;
+    border: 2px solid gray;
+    border-color: gray;
+    border-radius: 2rem;
+    padding: 0rem 1rem 0rem 1rem;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"]:checked + .likelabel {
+    color: rgb(28, 191, 28);
+}
+
+input[type="checkbox"]:checked + .dislikelabel {
+    color: rgb(206, 0, 0);
+}
+
+input[type="checkbox"] + label i {
+    color: inherit;
+}
+
+.likeelement {
+    align-items: center;
+}
+
+.likeelement label {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.dislikeelement {
+    align-items: center;
+}
+
+.dislikeelement label {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transform: scaleX(-1);
+}
+
+.likeelement .icon,
+.dislikeelement .icon {
+    margin-right: 0.5rem;
+}
+
+#dislikeAmount, #likeAmount {
+    font-family: monospace;
+    font-size: 1.5rem;
+}
+
+.button {
+    font-size: 1.5rem;
+    display: block;
+    background-color: gray;
+    border: 2px solid gray;
+    border-color: gray;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+.video-description {
+    background-color: gray;
+    margin: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-description-value {
+    all: unset;
+    white-space: pre
+}
+
+.resolutionchange {
+    display: block;
+    font-size: 1rem;
+    background-color: gray;
+    border: 2px solid gray;
+    border-color: gray;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    height: 100%;
+}

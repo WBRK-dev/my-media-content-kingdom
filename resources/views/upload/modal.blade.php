@@ -50,6 +50,8 @@
                     <div>
                         <p class="fs-5">Video Title:</p>
                         <input type="text" class="upload-popup-input" name="title" required>
+                        <p class="fs-5 mt-2">Video Description:</p>
+                        <textarea class="upload-popup-textarea" name="description" rows="10"></textarea>
                         <p class="fs-5 mt-2">Visibility</p>
                         <input type="radio" name="visibility" value="public" id="visibilitypublic" checked><label class="ms-1" for="visibilitypublic">Public</label><br>
                         <input type="radio" name="visibility" value="private" id="visibilityprivate"><label class="ms-1" for="visibilityprivate">Private</label>

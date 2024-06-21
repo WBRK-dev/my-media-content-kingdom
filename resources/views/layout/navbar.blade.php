@@ -31,8 +31,10 @@
                     <div class="item-list">
                         <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}" class="list-item"> <i class="fi fi-sr-user"></i> Channel</a>
                         <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}?page=videos" class="list-item"> <i class="fi fi-sr-film"></i> Your Videos</a>
+                        <a href="{{config("app.url")}}/upload-queue" class="list-item"> <i class="fi fi-sr-cloud"></i> Upload Queue</a>
+                    </div>
+                    <div class="item-list" style="margin-top: -1rem;">
                         <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}?page=settings" class="list-item"> <i class="fi fi-sr-settings"></i> Settings</a>
-                        {{-- <a href="{{config("app.url")}}/channel/{{$accountDropdownUser->id}}?page=settings" class="list-item danger-list-item">Sign out</a> --}}
                         <form action="{{config("app.url")}}/logout" method="post">@csrf <button class="list-item w-100"> <i class="fi fi-sr-exit"></i> Sign out</button> </form>
                     </div>
                 </div>

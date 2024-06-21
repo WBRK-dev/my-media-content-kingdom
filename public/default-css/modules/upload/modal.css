@@ -129,3 +129,14 @@
     width: 100%;
     box-sizing: border-box;
 }
+
+.upload-popup-wrapper .upload-popup textarea.upload-popup-textarea {
+    all: unset;
+
+    padding: .5rem;
+    border-radius: .5rem;
+    border: 1px solid var(--body-border);
+
+    width: 100%;
+    box-sizing: border-box;
+}
