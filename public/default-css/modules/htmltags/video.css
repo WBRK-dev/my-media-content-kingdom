@@ -157,3 +157,16 @@ video-watch-item .new-tag {
     margin-top: auto;
     width: auto;
 }
+
+.video-delete {
+    margin-top: .5rem;
+    font-weight: bold;
+    background-color: #00000000;
+    border: 2px solid white;
+    border-radius: .5rem;
+}
+
+.video-delete:hover {
+    color: red;
+    border-color: red;
+}
