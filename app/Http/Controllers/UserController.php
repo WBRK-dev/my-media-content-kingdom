@@ -7,6 +7,7 @@ use App\Models\UserPicture;
 use Illuminate\Http\Request;
 
 use App\Models\Video;
+use App\Models\VideoUploadJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -49,23 +50,30 @@ class UserController extends Controller
         if ($page === "settings" && !$isChannelOwner) return abort(403);
 
         if ($page === "home") {
+
+            $data["recently"] = $channel->videos()->where("terminated", false);
+            if (!$isChannelOwner) $data["recently"] = $data["recently"]->where("public", true)->where("processed", ">", 0)->orderBy("created_at", "desc")->limit(10)->get();
+            else $data["recently"] = $data["recently"]->orderBy("created_at", "desc")->limit(10)->get();
+
             $data["most_liked"] = Video::select("videos.*", DB::raw("SUM(video_likes.liked) as likes"))
                 ->leftJoin('video_likes', 'videos.id', '=', 'video_likes.video_id')
                 ->where("owner_id", $channel->id)
-                ->where("processed", true)->where("terminated", false)
+                ->where("terminated", false)
                 ->groupBy("id")->orderBy("likes", "desc")->orderBy("created_at", "desc")->limit(10);
-                if (!$isChannelOwner) $data["most_liked"] = $data["most_liked"]->where("public", true)->get();
+                if (!$isChannelOwner) $data["most_liked"] = $data["most_liked"]->where("public", true)->where("processed", ">", 0)->get();
                 else $data["most_liked"] = $data["most_liked"]->get();
+
             $data["most_viewed"] = Video::select("videos.*", DB::raw("SUM(video_views.amount) as views"))
                 ->leftJoin('video_views', 'videos.id', '=', 'video_views.video_id')
                 ->where("owner_id", $channel->id)
-                ->where("processed", true)->where("terminated", false)
+                ->where("terminated", false)
                 ->groupBy("id")->orderBy("views", "desc")->orderBy("created_at", "desc")->limit(10);
-                if (!$isChannelOwner) $data["most_viewed"] = $data["most_viewed"]->where("public", true)->get();
+                if (!$isChannelOwner) $data["most_viewed"] = $data["most_viewed"]->where("public", true)->where("processed", ">", 0)->get();
                 else $data["most_viewed"] = $data["most_viewed"]->get();
+                
         } else if ($page === "videos") {
-            $data["videos"] = $channel->videos()->where("processed", true)->where("terminated", false);
-            if (!$isChannelOwner) $data["videos"] = $data["videos"]->where("public", true)->orderBy("created_at", "desc")->paginate(25);
+            $data["videos"] = $channel->videos()->where("terminated", false);
+            if (!$isChannelOwner) $data["videos"] = $data["videos"]->where("public", true)->where("processed", ">", 0)->orderBy("created_at", "desc")->paginate(25);
             else $data["videos"] = $data["videos"]->orderBy("created_at", "desc")->paginate(25);
             $data["hasNextPage"] = $data["videos"]->hasMorePages();
         }
@@ -99,7 +107,7 @@ class UserController extends Controller
         $channel = User::findOrFail($request->input("id"));
         $isChannelOwner = Auth::check() && Auth::user()->id === $channel->id;
         
-        $videos = $channel->videos()->where("processed", true)->where("terminated", false);
+        $videos = $channel->videos()->where("processed", ">", 0)->where("terminated", false);
 
         if (!$isChannelOwner) $videos = $videos->where("public", true)->orderBy("created_at", "desc")->paginate(25);
         else $videos = $videos->orderBy("created_at", "desc")->paginate(25);
@@ -174,5 +182,21 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    /**
+     * Show the upload queue.
+     */
+    public function showUploadQueue() {
+
+        $jobs = Video::select("videos.*", "video_upload_jobs.status")
+            ->rightJoin('video_upload_jobs', 'videos.id', '=', 'video_upload_jobs.video_id')
+            ->where("processed", "<", 2)
+            ->orderBy("created_at", "desc")
+            ->get();
+
+        return view("upload.queue", [
+            "videos" => $jobs
+        ]);
     }
 }
